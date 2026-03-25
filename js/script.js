@@ -21,7 +21,17 @@ const PRODUCTS = [
 ];
 
 /* ─── ESTADO ─── */
-let cart          = JSON.parse(localStorage.getItem('1413_cart') || '[]');
+let cart = JSON.parse(localStorage.getItem('1413_cart') || '[]')
+  .map(c => {
+    const rawId = typeof c === 'object' && c !== null ? c.id : c;
+    const id = Number(rawId);
+    const qty = typeof c === 'object' && c !== null && c.qty ? Number(c.qty) : 1;
+    const prod = PRODUCTS.find(p => p.id === id);
+    if (!prod) return null;
+    return { id: prod.id, qty: isNaN(qty) ? 1 : qty, name: prod.name, price: prod.price, icon: prod.icon };
+  })
+  .filter(Boolean);
+
 let favorites     = JSON.parse(localStorage.getItem('1413_favs') || '[]');
 let currentFilter = 'todos';
 let searchQuery   = '';
