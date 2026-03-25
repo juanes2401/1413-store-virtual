@@ -2,22 +2,22 @@
 
 /* ─── DATOS DE PRODUCTOS ─── */
 const PRODUCTS = [
-  { id:1,  name:'Jersey Pro 1413',       brand:'1413 Store Virtual', icon:'🚴', cat:'ciclismo', price:89900,  oldPrice:249900, discount:64, sizes:['S','M','L','XL'], new:false },
-  { id:2,  name:'Culote Aero Carbon',    brand:'1413 Store Virtual', icon:'🩱', cat:'ciclismo', price:119900, oldPrice:349900, discount:66, sizes:['M','L','XL','XXL'], new:true  },
-  { id:3,  name:'Maillot Montaña X',     brand:'1413 Store Virtual', icon:'⛰️', cat:'montana',  price:79900,  oldPrice:229900, discount:65, sizes:['S','M','L'],       new:false },
-  { id:4,  name:'Short Running Pro',     brand:'1413 Store Virtual', icon:'🏃', cat:'running',  price:49900,  oldPrice:149900, discount:67, sizes:['S','M','L','XL'], new:false },
-  { id:5,  name:'Camiseta Gym Power',    brand:'1413 Store Virtual', icon:'💪', cat:'gimnasio', price:39900,  oldPrice:109900, discount:64, sizes:['M','L','XL','XXL'], new:true  },
-  { id:6,  name:'Guantes Ciclismo 360',  brand:'1413 Store Virtual', icon:'🧤', cat:'ciclismo', price:34900,  oldPrice:99900,  discount:65, sizes:['S','M','L'],       new:false },
-  { id:7,  name:'Uniforme Fútbol Local', brand:'1413 Store Virtual', icon:'⚽', cat:'futbol',   price:89900,  oldPrice:249900, discount:64, sizes:['S','M','L','XL'], new:false },
-  { id:8,  name:'Lycra Triatlón Elite',  brand:'1413 Store Virtual', icon:'🏊', cat:'triatlon', price:149900, oldPrice:419900, discount:64, sizes:['S','M','L'],       new:true  },
-  { id:9,  name:'Jersey Manga Larga 1413',brand:'1413 Store Virtual',icon:'🧥', cat:'ciclismo', price:99900,  oldPrice:279900, discount:64, sizes:['M','L','XL'],      new:false },
-  { id:10, name:'Zapatillas Trail Run',  brand:'1413 Store Virtual', icon:'👟', cat:'running',  price:189900, oldPrice:529900, discount:64, sizes:['40','41','42','43','44'], new:true },
-  { id:11, name:'Maleta Hidratación',    brand:'1413 Store Virtual', icon:'🎒', cat:'montana',  price:69900,  oldPrice:199900, discount:65, sizes:['Único'],           new:false },
-  { id:12, name:'Casco Ciclismo Aero',   brand:'1413 Store Virtual', icon:'⛑️', cat:'ciclismo', price:129900, oldPrice:379900, discount:66, sizes:['S','M','L'],       new:false },
-  { id:13, name:'Leggins Gym Mujer',     brand:'1413 Store Virtual', icon:'🩳', cat:'gimnasio', price:59900,  oldPrice:169900, discount:65, sizes:['S','M','L','XL'], new:true  },
-  { id:14, name:'Camiseta Fútbol Retro', brand:'1413 Store Virtual', icon:'👕', cat:'futbol',   price:45900,  oldPrice:129900, discount:65, sizes:['S','M','L','XL'], new:false },
-  { id:15, name:'Pantalón Montaña Tech', brand:'1413 Store Virtual', icon:'🏔️', cat:'montana',  price:89900,  oldPrice:259900, discount:65, sizes:['M','L','XL'],      new:false },
-  { id:16, name:'Kit Triatlón Completo', brand:'1413 Store Virtual', icon:'🏅', cat:'triatlon', price:249900, oldPrice:699900, discount:64, sizes:['S','M','L'],       new:true  },
+  { id:1,  name:'Jersey Pro 1413',       brand:'1413 Cycling Sport', icon:'🚴', cat:'ciclismo', price:89900,  oldPrice:249900, discount:64, sizes:['S','M','L','XL'], new:false },
+  { id:2,  name:'Culote Aero Carbon',    brand:'1413 Cycling Sport', icon:'🩱', cat:'ciclismo', price:119900, oldPrice:349900, discount:66, sizes:['M','L','XL','XXL'], new:true  },
+  { id:3,  name:'Maillot Montaña X',     brand:'1413 Cycling Sport', icon:'⛰️', cat:'montana',  price:79900,  oldPrice:229900, discount:65, sizes:['S','M','L'],       new:false },
+  { id:4,  name:'Short Running Pro',     brand:'1413 Cycling Sport', icon:'🏃', cat:'running',  price:49900,  oldPrice:149900, discount:67, sizes:['S','M','L','XL'], new:false },
+  { id:5,  name:'Camiseta Gym Power',    brand:'1413 Cycling Sport', icon:'💪', cat:'gimnasio', price:39900,  oldPrice:109900, discount:64, sizes:['M','L','XL','XXL'], new:true  },
+  { id:6,  name:'Guantes Ciclismo 360',  brand:'1413 Cycling Sport', icon:'🧤', cat:'ciclismo', price:34900,  oldPrice:99900,  discount:65, sizes:['S','M','L'],       new:false },
+  { id:7,  name:'Uniforme Fútbol Local', brand:'1413 Cycling Sport', icon:'⚽', cat:'futbol',   price:89900,  oldPrice:249900, discount:64, sizes:['S','M','L','XL'], new:false },
+  { id:8,  name:'Lycra Triatlón Elite',  brand:'1413 Cycling Sport', icon:'🏊', cat:'triatlon', price:149900, oldPrice:419900, discount:64, sizes:['S','M','L'],       new:true  },
+  { id:9,  name:'Jersey Manga Larga 1413',brand:'1413 Cycling Sport',icon:'🧥', cat:'ciclismo', price:99900,  oldPrice:279900, discount:64, sizes:['M','L','XL'],      new:false },
+  { id:10, name:'Zapatillas Trail Run',  brand:'1413 Cycling Sport', icon:'👟', cat:'running',  price:189900, oldPrice:529900, discount:64, sizes:['40','41','42','43','44'], new:true },
+  { id:11, name:'Maleta Hidratación',    brand:'1413 Cycling Sport', icon:'🎒', cat:'montana',  price:69900,  oldPrice:199900, discount:65, sizes:['Único'],           new:false },
+  { id:12, name:'Casco Ciclismo Aero',   brand:'1413 Cycling Sport', icon:'⛑️', cat:'ciclismo', price:129900, oldPrice:379900, discount:66, sizes:['S','M','L'],       new:false },
+  { id:13, name:'Leggins Gym Mujer',     brand:'1413 Cycling Sport', icon:'🩳', cat:'gimnasio', price:59900,  oldPrice:169900, discount:65, sizes:['S','M','L','XL'], new:true  },
+  { id:14, name:'Camiseta Fútbol Retro', brand:'1413 Cycling Sport', icon:'👕', cat:'futbol',   price:45900,  oldPrice:129900, discount:65, sizes:['S','M','L','XL'], new:false },
+  { id:15, name:'Pantalón Montaña Tech', brand:'1413 Cycling Sport', icon:'🏔️', cat:'montana',  price:89900,  oldPrice:259900, discount:65, sizes:['M','L','XL'],      new:false },
+  { id:16, name:'Kit Triatlón Completo', brand:'1413 Cycling Sport', icon:'🏅', cat:'triatlon', price:249900, oldPrice:699900, discount:64, sizes:['S','M','L'],       new:true  },
 ];
 
 /* ─── ESTADO ─── */
