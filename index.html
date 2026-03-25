@@ -1894,6 +1894,7 @@
                 font-size: 28px;
             }
         }
+
         /* ═══════════════════════════════════════
            MODAL SOBRE NOSOTROS
         ═══════════════════════════════════════ */
@@ -1958,6 +1959,7 @@
         .about-section {
             margin-bottom: 32px;
         }
+
         .about-section:last-child {
             margin-bottom: 0;
         }
@@ -1980,25 +1982,29 @@
             padding: 0;
             margin: 0 0 16px 0;
         }
+
         .about-list li {
             margin-bottom: 8px;
             font-size: 15px;
         }
-        
+
         .about-contact {
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         .about-contact li {
             margin-bottom: 8px;
             font-size: 15px;
         }
+
         .about-contact a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
         }
+
         .about-contact a:hover {
             text-decoration: underline;
         }
@@ -2007,6 +2013,7 @@
             .about-modal-body {
                 padding: 24px;
             }
+
             .about-modal-header {
                 padding: 20px 24px;
             }
@@ -2411,17 +2418,21 @@
         <div class="about-modal-body">
             <div class="about-section">
                 <h3>🚴 ¿Quiénes Somos?</h3>
-                <p>Somos <strong>1413 Store Virtual</strong>, tu tienda deportiva de confianza en Aipe, Huila. Nos especializamos en ropa de ciclismo y deporte con diseños modernos, materiales de alta calidad y precios que se adaptan a tu bolsillo.</p>
+                <p>Somos <strong>1413 Store Virtual</strong>, tu tienda deportiva de confianza en Aipe, Huila. Nos
+                    especializamos en ropa de ciclismo y deporte con diseños modernos, materiales de alta calidad y
+                    precios que se adaptan a tu bolsillo.</p>
             </div>
-            
+
             <div class="about-section">
                 <h3>🎯 Nuestra Misión</h3>
-                <p>Vestir a cada deportista colombiano con orgullo, comodidad y estilo. Creemos que el deporte une y transforma vidas.</p>
+                <p>Vestir a cada deportista colombiano con orgullo, comodidad y estilo. Creemos que el deporte une y
+                    transforma vidas.</p>
             </div>
-            
+
             <div class="about-section">
                 <h3>👕 Uniformes Personalizados</h3>
-                <p>¿Tienes un equipo, club deportivo o grupo? En 1413 Store Virtual diseñamos y fabricamos uniformes 100% personalizados para:</p>
+                <p>¿Tienes un equipo, club deportivo o grupo? En 1413 Store Virtual diseñamos y fabricamos uniformes
+                    100% personalizados para:</p>
                 <ul class="about-list">
                     <li>✔ Equipos de ciclismo</li>
                     <li>✔ Clubes de fútbol</li>
@@ -2431,7 +2442,7 @@
                 </ul>
                 <p>Tú eliges colores, diseño y logo. ¡Nosotros lo hacemos realidad!</p>
             </div>
-            
+
             <div class="about-section">
                 <h3>⭐ ¿Por qué elegirnos?</h3>
                 <ul class="about-list">
@@ -2443,16 +2454,23 @@
                     <li>✔ Más de 1.700 clientes satisfechos</li>
                 </ul>
             </div>
-            
+
             <div class="about-section">
                 <h3>📍 Ubicación</h3>
                 <p>Aipe, Huila, Colombia</p>
-                
+
                 <h3 style="margin-top: 24px;">📞 Contáctanos</h3>
                 <ul class="about-contact">
                     <li>📱 <strong>Cel:</strong> 312 4000506</li>
-                    <li>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/573163784026" target="_blank" rel="noopener">+57 316 3784026</a></li>
-                    <li>📧 <strong>Email:</strong> <a href="mailto:bettpublicidad@gmail.com">bettpublicidad@gmail.com</a></li>
+                    <li>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/573163784026" target="_blank"
+                            rel="noopener">+57 316 3784026</a></li>
+                    <li>📧 <strong>Email:</strong> <a
+                            href="mailto:bettpublicidad@gmail.com">bettpublicidad@gmail.com</a></li>
+                    <li style="margin-top: 12px; line-height: 1.6;">
+                        🕐 <strong>Horario de atención:</strong><br>
+                        Lunes a Viernes: 8:00 AM - 12:00 M y 2:00 PM - 6:00 PM<br>
+                        Sábados: 8:00 AM - 1:00 PM
+                    </li>
                 </ul>
             </div>
         </div>
@@ -2518,7 +2536,13 @@
                     <span>✉️</span>
                     <a href="mailto:bettpublicidad@gmail.com">bettpublicidad@gmail.com</a>
                 </div>
-                <div class="contact-item"><span>🕐</span><span>Lun–Sáb: 8am–7pm</span></div>
+                <div class="contact-item" style="align-items: flex-start;">
+                    <span style="margin-top: 2px;">🕐</span>
+                    <div style="display: flex; flex-direction: column; gap: 4px; line-height: 1.4;">
+                        <span>Lun - Vie: 8am a 12m y 2pm a 6pm</span>
+                        <span>Sábados: 8am a 1pm</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Col 4: Info -->
@@ -2825,7 +2849,7 @@
             modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('show'), 10);
             document.body.style.overflow = 'hidden';
-            
+
             // Cierra el menú mobile si está abierto (opcional pero ayuda)
             const navbar = document.getElementById('navbar');
             if (navbar.classList.contains('open')) {
