@@ -1676,6 +1676,223 @@
         .btn-filter-mobile:hover {
             border-color: var(--primary);
         }
+
+        /* ═══════════════════════════════════════
+           MODAL PRODUCTO DETALLE
+        ═══════════════════════════════════════ */
+        #product-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 2500;
+            backdrop-filter: blur(4px);
+        }
+
+        #product-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            background: #ffffff;
+            z-index: 2501;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #product-modal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .product-modal-body {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+            max-height: 90vh;
+        }
+
+        .pm-image-col {
+            flex: 1;
+            background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            padding: 40px;
+        }
+
+        .pm-info-col {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .pm-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .pm-close:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .pm-brand {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .pm-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 16px;
+            line-height: 1.1;
+        }
+
+        .pm-prices {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .pm-old-price {
+            font-size: 16px;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .pm-price {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--black);
+        }
+
+        .pm-discount-badge {
+            background: var(--primary);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .pm-desc {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .pm-section-title {
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            color: var(--black);
+        }
+
+        .pm-sizes {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .pm-size-btn {
+            border: 1px solid #ddd;
+            background: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pm-size-btn.selected,
+        .pm-size-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(204, 0, 0, 0.05);
+        }
+
+        .pm-add-cart {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .pm-add-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(204, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .product-modal-body {
+                flex-direction: column;
+            }
+
+            .pm-image-col {
+                padding: 20px;
+                font-size: 60px;
+                min-height: 200px;
+            }
+
+            .pm-info-col {
+                padding: 20px;
+            }
+
+            .pm-name {
+                font-size: 24px;
+            }
+
+            .pm-price {
+                font-size: 28px;
+            }
+        }
     </style>
 </head>
 
@@ -2027,6 +2244,44 @@
     </div>
 
     <!-- ═══════════════════════════════════════
+       MODAL PRODUCTO DETALLE
+  ═══════════════════════════════════════ -->
+    <div id="product-modal-overlay" onclick="closeProductModal()"></div>
+    <div id="product-modal">
+        <div class="product-modal-body">
+            <div class="pm-image-col" id="pm-image">
+                <!-- Icon loaded via JS -->
+            </div>
+            <div class="pm-info-col">
+                <button class="pm-close" onclick="closeProductModal()" aria-label="Cerrar">✕</button>
+                <div class="pm-brand" id="pm-brand">MARCA</div>
+                <h2 class="pm-name" id="pm-name">Nombre del Producto</h2>
+
+                <div class="pm-prices">
+                    <span class="pm-price" id="pm-price">$0</span>
+                    <span class="pm-old-price" id="pm-old-price">$0</span>
+                    <span class="pm-discount-badge" id="pm-discount">-0%</span>
+                </div>
+
+                <p class="pm-desc">
+                    Esta es una descripción de ejemplo del producto. Más adelante aquí verás información detallada,
+                    características técnicas, y consejos de lavado o uso para que saques el máximo provecho a tu compra.
+                    ¡Calidad garantizada!
+                </p>
+
+                <div class="pm-section-title">Tallas disponibles</div>
+                <div class="pm-sizes" id="pm-sizes">
+                    <!-- Sizes loaded via JS -->
+                </div>
+
+                <button class="pm-add-cart" id="pm-add-btn">
+                    🛒 AGREGAR AL CARRITO
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
        10. WHATSAPP FLOTANTE
   ═══════════════════════════════════════ -->
     <div id="wa-float">
@@ -2134,7 +2389,16 @@
         ];
 
         /* ─── ESTADO ─── */
-        let cart = JSON.parse(localStorage.getItem('1413_cart') || '[]');
+        let cart = JSON.parse(localStorage.getItem('1413_cart') || '[]')
+            .map(c => {
+                const rawId = typeof c === 'object' && c !== null ? c.id : c;
+                const id = Number(rawId);
+                const qty = typeof c === 'object' && c !== null && c.qty ? Number(c.qty) : 1;
+                const prod = PRODUCTS.find(p => p.id === id);
+                if (!prod) return null;
+                return { id: prod.id, qty: isNaN(qty) ? 1 : qty, name: prod.name, price: prod.price, icon: prod.icon };
+            })
+            .filter(Boolean);
         let favorites = JSON.parse(localStorage.getItem('1413_favs') || '[]');
         let currentFilter = 'todos';
         let searchQuery = '';
@@ -2195,9 +2459,17 @@
 
             document.querySelectorAll('.product-card').forEach(c => observer.observe(c));
 
+            /* Eventos card principal (abrir modal) */
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    openProductModal(parseInt(card.dataset.id));
+                });
+            });
+
             /* Eventos botones carrito */
             document.querySelectorAll('.btn-cart').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const id = parseInt(e.currentTarget.dataset.id);
                     addToCart(id);
                 });
@@ -2206,6 +2478,7 @@
             /* Eventos favoritos */
             document.querySelectorAll('.fav-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const id = parseInt(e.currentTarget.dataset.id);
                     toggleFavorite(id, e.currentTarget);
                 });
@@ -2295,6 +2568,77 @@
         }
 
         document.getElementById('price-range').addEventListener('input', updatePriceLabel);
+
+        /* ─── MODAL PRODUCTO ─── */
+        function openProductModal(id) {
+            const product = PRODUCTS.find(p => p.id === id);
+            if (!product) return;
+
+            document.getElementById('pm-image').innerHTML = product.icon;
+            document.getElementById('pm-brand').textContent = product.brand;
+            document.getElementById('pm-name').textContent = product.name;
+            document.getElementById('pm-price').textContent = formatCOP(product.price);
+
+            const oldPriceEl = document.getElementById('pm-old-price');
+            const discountEl = document.getElementById('pm-discount');
+            if (product.oldPrice > product.price) {
+                oldPriceEl.textContent = formatCOP(product.oldPrice);
+                oldPriceEl.style.display = 'inline';
+                discountEl.textContent = `-${product.discount}%`;
+                discountEl.style.display = 'inline-block';
+            } else {
+                oldPriceEl.style.display = 'none';
+                discountEl.style.display = 'none';
+            }
+
+            const sizesContainer = document.getElementById('pm-sizes');
+            if (product.sizes && product.sizes.length > 0) {
+                sizesContainer.innerHTML = product.sizes.map(s => `<button class="pm-size-btn">${s}</button>`).join('');
+
+                // Active state
+                const sizeBtns = sizesContainer.querySelectorAll('.pm-size-btn');
+                sizeBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        sizeBtns.forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                    });
+                });
+                if (sizeBtns.length > 0) sizeBtns[0].classList.add('selected');
+            } else {
+                sizesContainer.innerHTML = '<span style="color:#888;font-size:14px;">Talla única</span>';
+            }
+
+            const addBtn = document.getElementById('pm-add-btn');
+            addBtn.onclick = function () {
+                addToCart(product.id);
+                closeProductModal();
+            };
+
+            const overlay = document.getElementById('product-modal-overlay');
+            const modal = document.getElementById('product-modal');
+
+            overlay.style.display = 'block';
+            modal.style.display = 'block';
+
+            // Animación via class update timeout
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            const overlay = document.getElementById('product-modal-overlay');
+            const modal = document.getElementById('product-modal');
+
+            modal.classList.remove('show');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
 
         /* ─── CARRITO ─── */
         function addToCart(id) {
