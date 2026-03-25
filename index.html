@@ -1894,6 +1894,123 @@
                 font-size: 28px;
             }
         }
+        /* ═══════════════════════════════════════
+           MODAL SOBRE NOSOTROS
+        ═══════════════════════════════════════ */
+        #about-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 2500;
+            backdrop-filter: blur(4px);
+        }
+
+        #about-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            background: #ffffff;
+            z-index: 2501;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            flex-direction: column;
+        }
+
+        #about-modal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .about-modal-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .about-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--black);
+            margin: 0;
+        }
+
+        .about-modal-body {
+            padding: 32px;
+            overflow-y: auto;
+            flex: 1;
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .about-section {
+            margin-bottom: 32px;
+        }
+        .about-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-section h3 {
+            color: var(--primary);
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+        }
+        .about-list li {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        
+        .about-contact {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .about-contact li {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        .about-contact a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .about-contact a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .about-modal-body {
+                padding: 24px;
+            }
+            .about-modal-header {
+                padding: 20px 24px;
+            }
+        }
     </style>
 </head>
 
@@ -2283,6 +2400,65 @@
     </div>
 
     <!-- ═══════════════════════════════════════
+       MODAL SOBRE NOSOTROS
+  ═══════════════════════════════════════ -->
+    <div id="about-modal-overlay" onclick="closeAboutModal()"></div>
+    <div id="about-modal">
+        <button class="pm-close" onclick="closeAboutModal()" aria-label="Cerrar">✕</button>
+        <div class="about-modal-header">
+            <h2 class="about-title">Sobre Nosotros</h2>
+        </div>
+        <div class="about-modal-body">
+            <div class="about-section">
+                <h3>🚴 ¿Quiénes Somos?</h3>
+                <p>Somos <strong>1413 Store Virtual</strong>, tu tienda deportiva de confianza en Aipe, Huila. Nos especializamos en ropa de ciclismo y deporte con diseños modernos, materiales de alta calidad y precios que se adaptan a tu bolsillo.</p>
+            </div>
+            
+            <div class="about-section">
+                <h3>🎯 Nuestra Misión</h3>
+                <p>Vestir a cada deportista colombiano con orgullo, comodidad y estilo. Creemos que el deporte une y transforma vidas.</p>
+            </div>
+            
+            <div class="about-section">
+                <h3>👕 Uniformes Personalizados</h3>
+                <p>¿Tienes un equipo, club deportivo o grupo? En 1413 Store Virtual diseñamos y fabricamos uniformes 100% personalizados para:</p>
+                <ul class="about-list">
+                    <li>✔ Equipos de ciclismo</li>
+                    <li>✔ Clubes de fútbol</li>
+                    <li>✔ Grupos de running y triatlón</li>
+                    <li>✔ Equipos de gimnasio y crossfit</li>
+                    <li>✔ Instituciones y empresas</li>
+                </ul>
+                <p>Tú eliges colores, diseño y logo. ¡Nosotros lo hacemos realidad!</p>
+            </div>
+            
+            <div class="about-section">
+                <h3>⭐ ¿Por qué elegirnos?</h3>
+                <ul class="about-list">
+                    <li>✔ Ropa deportiva de alta calidad</li>
+                    <li>✔ Uniformes personalizados para tu equipo o club</li>
+                    <li>✔ Envíos a todo Colombia</li>
+                    <li>✔ Atención personalizada por WhatsApp</li>
+                    <li>✔ Precios accesibles y descuentos especiales</li>
+                    <li>✔ Más de 1.700 clientes satisfechos</li>
+                </ul>
+            </div>
+            
+            <div class="about-section">
+                <h3>📍 Ubicación</h3>
+                <p>Aipe, Huila, Colombia</p>
+                
+                <h3 style="margin-top: 24px;">📞 Contáctanos</h3>
+                <ul class="about-contact">
+                    <li>📱 <strong>Cel:</strong> 312 4000506</li>
+                    <li>💬 <strong>WhatsApp:</strong> <a href="https://wa.me/573163784026" target="_blank" rel="noopener">+57 316 3784026</a></li>
+                    <li>📧 <strong>Email:</strong> <a href="mailto:bettpublicidad@gmail.com">bettpublicidad@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
        10. WHATSAPP FLOTANTE
   ═══════════════════════════════════════ -->
     <div id="wa-float">
@@ -2349,7 +2525,7 @@
             <div class="footer-col">
                 <h4>Información</h4>
                 <ul>
-                    <li><a href="#">Sobre Nosotros</a></li>
+                    <li><a href="#" onclick="openAboutModal(); return false;">Sobre Nosotros</a></li>
                     <li><a href="#">Envíos y Devoluciones</a></li>
                     <li><a href="#">Guía de Tallas</a></li>
                     <li><a href="#">Ropa Personalizada</a></li>
@@ -2633,6 +2809,33 @@
             const overlay = document.getElementById('product-modal-overlay');
             const modal = document.getElementById('product-modal');
 
+            modal.classList.remove('show');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        /* ─── MODAL SOBRE NOSOTROS ─── */
+        function openAboutModal() {
+            const overlay = document.getElementById('about-modal-overlay');
+            const modal = document.getElementById('about-modal');
+            overlay.style.display = 'block';
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+            document.body.style.overflow = 'hidden';
+            
+            // Cierra el menú mobile si está abierto (opcional pero ayuda)
+            const navbar = document.getElementById('navbar');
+            if (navbar.classList.contains('open')) {
+                navbar.classList.remove('open');
+            }
+        }
+
+        function closeAboutModal() {
+            const overlay = document.getElementById('about-modal-overlay');
+            const modal = document.getElementById('about-modal');
             modal.classList.remove('show');
             setTimeout(() => {
                 overlay.style.display = 'none';
