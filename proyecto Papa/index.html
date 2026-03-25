@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1413 Store Virtual · Cycling & Sport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       1. TOPBAR
+  ═══════════════════════════════════════ -->
+  <div id="topbar">
+    <div class="topbar-left">
+      <span class="topbar-flag">🇨🇴</span>
+      <span>Aipe, Huila - Colombia</span>
+    </div>
+    <div class="topbar-links">
+      <a href="#" class="hide-mobile">
+        <span>👤</span> Iniciar Sesión / Crear Cuenta
+      </a>
+      <span class="topbar-sep hide-mobile">|</span>
+      <a href="#">❤️ Favoritos</a>
+      <span class="topbar-sep">|</span>
+      <a href="#">Ayuda</a>
+      <span class="topbar-sep">|</span>
+      <a href="https://wa.me/573163784026" target="_blank" rel="noopener">
+        <span>💬</span> WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       2. HEADER PRINCIPAL
+  ═══════════════════════════════════════ -->
+  <header id="header">
+    <div class="logo-wrap">
+      <img
+        class="brand-logo-img"
+        src="img/logo_tienda.jpeg"
+        alt="1413 Store Virtual · Cycling &amp; Sport"
+        title="1413 Store Virtual · Cycling &amp; Sport"
+      />
+    </div>
+
+    <div class="search-wrap">
+      <input type="text" id="search-input" placeholder="¿Qué buscas?" aria-label="Buscar productos" />
+      <button class="search-btn" aria-label="Buscar">🔍</button>
+    </div>
+
+    <div class="header-actions">
+      <button class="cart-btn" id="cart-open-btn" aria-label="Abrir carrito">
+        🛒
+        <span class="cart-badge" id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════
+       3. NAVBAR CATEGORÍAS
+  ═══════════════════════════════════════ -->
+  <nav id="navbar">
+    <button class="hamburger" id="hamburger-btn" aria-label="Menú">☰</button>
+    <a href="#" class="nav-link active" data-cat="todos">TODOS</a>
+    <a href="#" class="nav-link" data-cat="ciclismo">CICLISMO</a>
+    <a href="#" class="nav-link" data-cat="triatlon">TRIATLÓN</a>
+    <a href="#" class="nav-link" data-cat="running">RUNNING</a>
+    <a href="#" class="nav-link" data-cat="gimnasio">GIMNASIO</a>
+    <a href="#" class="nav-link" data-cat="futbol">FÚTBOL</a>
+    <a href="#" class="nav-link" data-cat="montana">MONTAÑA</a>
+    <a href="#" class="nav-link" data-cat="ofertas">🔥 OFERTAS</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       4. BANNER HERO SLIDER
+  ═══════════════════════════════════════ -->
+  <section id="hero" aria-label="Banner principal">
+    <!-- Slide 1 -->
+    <div class="slide slide-1 active">
+      <div class="slide-icon">🔥</div>
+      <h1 class="slide-title">REMATE FINAL<br><span>HASTA 70% OFF</span></h1>
+      <p class="slide-sub">Más del 50% de descuento directo en toda la tienda</p>
+      <a href="#" class="slide-cta" onclick="document.getElementById('products-grid').scrollIntoView({behavior:'smooth'});return false;">VER OFERTAS</a>
+    </div>
+    <!-- Slide 2 -->
+    <div class="slide slide-2">
+      <div class="slide-icon">🚴</div>
+      <h1 class="slide-title">NUEVA COLECCIÓN<br><span>CICLISMO 2025</span></h1>
+      <p class="slide-sub">Jerseys, culotes y accesorios de alto rendimiento</p>
+      <a href="#" class="slide-cta" onclick="filterByCategory('ciclismo');return false;">VER COLECCIÓN</a>
+    </div>
+    <!-- Slide 3 -->
+    <div class="slide slide-3">
+      <div class="slide-icon">🚚</div>
+      <h1 class="slide-title">ENVÍOS A TODO<br><span>HUILA Y COLOMBIA</span></h1>
+      <p class="slide-sub">Gratis en compras superiores a $150.000 COP</p>
+      <a href="https://wa.me/573163784026?text=Hola!+Vi+sus+productos+en+la+tienda+virtual+1413+y+me+interesa..." target="_blank" rel="noopener" class="slide-cta">PEDIR AHORA</a>
+    </div>
+
+    <!-- Controles -->
+    <button class="slider-btn prev" id="slide-prev" aria-label="Anterior">&#8249;</button>
+    <button class="slider-btn next" id="slide-next" aria-label="Siguiente">&#8250;</button>
+
+    <div class="slider-dots" role="tablist">
+      <button class="dot active" data-slide="0" aria-label="Slide 1"></button>
+      <button class="dot" data-slide="1" aria-label="Slide 2"></button>
+      <button class="dot" data-slide="2" aria-label="Slide 3"></button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       5. BARRA DE DESCUENTO / MARQUEE
+  ═══════════════════════════════════════ -->
+  <div id="announcement" aria-label="Anuncios">
+    <div class="marquee-track">
+      <!-- Repetir dos veces para loop continuo -->
+      <span class="marquee-item">🔥 REMATE FINAL</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">MÁS DEL 50% DE DESCUENTO</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">🚚 ENVÍOS GRATIS +$150.000</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">💬 PAGA POR WHATSAPP</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">👕 ROPA PERSONALIZADA DISPONIBLE</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">🏆 CALIDAD PREMIUM · MARCA PROPIA</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <!-- Duplicado para loop -->
+      <span class="marquee-item">🔥 REMATE FINAL</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">MÁS DEL 50% DE DESCUENTO</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">🚚 ENVÍOS GRATIS +$150.000</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">💬 PAGA POR WHATSAPP</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">👕 ROPA PERSONALIZADA DISPONIBLE</span>
+      <span class="marquee-item marquee-sep">·</span>
+      <span class="marquee-item">🏆 CALIDAD PREMIUM · MARCA PROPIA</span>
+      <span class="marquee-item marquee-sep">·</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       6. SECCIÓN CATEGORÍAS VISUALES
+  ═══════════════════════════════════════ -->
+  <section id="categories">
+    <h2 class="section-title">CATEGORÍAS</h2>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="filterByCategory('ciclismo')">
+        <span class="cat-icon">🚴</span>
+        <div class="cat-name">Ciclismo</div>
+        <div class="cat-count">124 productos</div>
+      </div>
+      <div class="cat-card" onclick="filterByCategory('running')">
+        <span class="cat-icon">🏃</span>
+        <div class="cat-name">Running</div>
+        <div class="cat-count">98 productos</div>
+      </div>
+      <div class="cat-card" onclick="filterByCategory('gimnasio')">
+        <span class="cat-icon">💪</span>
+        <div class="cat-name">Gimnasio</div>
+        <div class="cat-count">76 productos</div>
+      </div>
+      <div class="cat-card" onclick="filterByCategory('futbol')">
+        <span class="cat-icon">⚽</span>
+        <div class="cat-name">Fútbol</div>
+        <div class="cat-count">85 productos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       LAYOUT: SIDEBAR + PRODUCTOS
+  ═══════════════════════════════════════ -->
+  <div class="main-container">
+
+    <!-- 8. SIDEBAR FILTROS (desktop) -->
+    <aside id="sidebar">
+      <div class="filter-box">
+        <div class="filter-header">🔽 FILTRAR POR</div>
+
+        <!-- Categoría -->
+        <div class="filter-section">
+          <h4>Categoría</h4>
+          <label class="filter-check">
+            <input type="checkbox" data-filter-cat="ciclismo" />
+            <span class="check-box"></span> Ciclismo
+          </label>
+          <label class="filter-check">
+            <input type="checkbox" data-filter-cat="running" />
+            <span class="check-box"></span> Running
+          </label>
+          <label class="filter-check">
+            <input type="checkbox" data-filter-cat="gimnasio" />
+            <span class="check-box"></span> Gimnasio
+          </label>
+          <label class="filter-check">
+            <input type="checkbox" data-filter-cat="futbol" />
+            <span class="check-box"></span> Fútbol
+          </label>
+          <label class="filter-check">
+            <input type="checkbox" data-filter-cat="montana" />
+            <span class="check-box"></span> Montaña
+          </label>
+          <label class="filter-check">
+            <input type="checkbox" data-filter-cat="triatlon" />
+            <span class="check-box"></span> Triatlón
+          </label>
+        </div>
+
+        <!-- Precio -->
+        <div class="filter-section">
+          <h4>Precio (COP)</h4>
+          <div class="price-range-wrap">
+            <div class="price-vals">
+              <span id="price-min-label">$20.000</span>
+              <span id="price-max-label">$500.000</span>
+            </div>
+            <input type="range" id="price-range" min="20000" max="500000" step="5000" value="500000" />
+          </div>
+        </div>
+
+        <!-- Talla -->
+        <div class="filter-section">
+          <h4>Talla</h4>
+          <div class="size-btns">
+            <button class="size-btn" data-size="S">S</button>
+            <button class="size-btn" data-size="M">M</button>
+            <button class="size-btn" data-size="L">L</button>
+            <button class="size-btn" data-size="XL">XL</button>
+            <button class="size-btn" data-size="XXL">XXL</button>
+          </div>
+        </div>
+
+        <!-- Color -->
+        <div class="filter-section">
+          <h4>Color</h4>
+          <div class="color-swatches">
+            <div class="color-dot" style="background:#cc0000;" title="Rojo" data-color="rojo"></div>
+            <div class="color-dot" style="background:#003399;" title="Azul" data-color="azul"></div>
+            <div class="color-dot" style="background:#111111;border:1px solid #444;" title="Negro" data-color="negro"></div>
+            <div class="color-dot" style="background:#ffffff;" title="Blanco" data-color="blanco"></div>
+            <div class="color-dot" style="background:#25d366;" title="Verde" data-color="verde"></div>
+            <div class="color-dot" style="background:#ff6600;" title="Naranja" data-color="naranja"></div>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button class="btn-apply" onclick="applyFilters()">APLICAR</button>
+          <button class="btn-clear" onclick="clearFilters()">LIMPIAR</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════
+         CONTENIDO PRINCIPAL
+    ═══════════════════════════════════════ -->
+    <div id="main-content">
+
+      <!-- Filtro mobile -->
+      <div class="filter-bar-mobile">
+        <button class="btn-filter-mobile" id="filter-mobile-btn">🔽 FILTROS</button>
+        <select class="sort-select" id="sort-select-mobile" onchange="sortProducts(this.value)">
+          <option value="low">Precio — más bajo</option>
+          <option value="high">Precio — más alto</option>
+          <option value="discount">Mayor descuento</option>
+          <option value="new">Más nuevos</option>
+        </select>
+      </div>
+
+      <!-- 9. Barra resultados -->
+      <div class="results-bar">
+        <div class="results-count">
+          <span id="product-count">16</span> PRODUCTOS ENCONTRADOS
+        </div>
+        <select class="sort-select" id="sort-select" onchange="sortProducts(this.value)">
+          <option value="low">Ordenar por: Precio — más bajo</option>
+          <option value="high">Precio — más alto</option>
+          <option value="discount">Mayor descuento</option>
+          <option value="new">Más nuevos</option>
+        </select>
+      </div>
+
+      <!-- 7. Grid de productos -->
+      <div id="products-grid" role="list">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       DRAWER CARRITO
+  ═══════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+  <aside id="cart-drawer" aria-label="Carrito de compras">
+    <div class="cart-header">
+      <h3>🛒 MI CARRITO</h3>
+      <button class="cart-close" id="cart-close-btn" aria-label="Cerrar carrito">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items-list">
+      <div class="cart-empty">
+        <div class="empty-icon">🛒</div>
+        <p>Tu carrito está vacío</p>
+        <p style="font-size:13px;margin-top:8px;color:#555;">¡Agrega tus productos favoritos!</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cart-footer" style="display:none;">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cart-total">$0</span>
+      </div>
+      <a href="https://wa.me/573163784026" target="_blank" rel="noopener" class="btn-checkout" id="wa-checkout">
+        <span>💬</span> PAGAR POR WHATSAPP
+      </a>
+    </div>
+  </aside>
+
+  <!-- SIDEBAR FILTROS MODAL (mobile) -->
+  <div id="sidebar-overlay" onclick="closeSidebarModal()"></div>
+  <div id="sidebar-modal">
+    <div class="sidebar-modal-header">
+      <div class="filter-header" style="margin-bottom:0;">🔽 FILTRAR POR</div>
+      <button class="sidebar-modal-close" onclick="closeSidebarModal()">✕</button>
+    </div>
+    <!-- Mismo contenido que sidebar desktop -->
+    <div class="filter-section" style="margin-top:16px;">
+      <h4>Categoría</h4>
+      <label class="filter-check"><input type="checkbox" data-filter-cat-m="ciclismo"/><span class="check-box"></span> Ciclismo</label>
+      <label class="filter-check"><input type="checkbox" data-filter-cat-m="running"/><span class="check-box"></span> Running</label>
+      <label class="filter-check"><input type="checkbox" data-filter-cat-m="gimnasio"/><span class="check-box"></span> Gimnasio</label>
+      <label class="filter-check"><input type="checkbox" data-filter-cat-m="futbol"/><span class="check-box"></span> Fútbol</label>
+    </div>
+    <div class="filter-section">
+      <h4>Talla</h4>
+      <div class="size-btns">
+        <button class="size-btn" data-size-m="S">S</button>
+        <button class="size-btn" data-size-m="M">M</button>
+        <button class="size-btn" data-size-m="L">L</button>
+        <button class="size-btn" data-size-m="XL">XL</button>
+        <button class="size-btn" data-size-m="XXL">XXL</button>
+      </div>
+    </div>
+    <div class="filter-actions" style="margin-top:20px;">
+      <button class="btn-apply" onclick="applyFilters();closeSidebarModal();">APLICAR</button>
+      <button class="btn-clear" onclick="clearFilters();closeSidebarModal();">LIMPIAR</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       10. WHATSAPP FLOTANTE
+  ═══════════════════════════════════════ -->
+  <div id="wa-float">
+    <div class="wa-bubble">¡Chatea con nosotros! 💬</div>
+    <a class="wa-btn"
+       href="https://wa.me/573163784026?text=Hola!%20Vi%20sus%20productos%20en%20la%20tienda%20virtual%201413%20y%20me%20interesa..."
+       target="_blank"
+       rel="noopener"
+       aria-label="Contactar por WhatsApp">
+      💬
+    </a>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       11. FOOTER
+  ═══════════════════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-grid">
+
+      <!-- Col 1: Logo + desc -->
+      <div class="footer-col">
+        <img
+          class="brand-logo-img-footer"
+          src="img/logo_tienda.jpeg"
+          alt="1413 Store Virtual · Cycling &amp; Sport"
+        />
+        <p class="footer-desc">
+          Tu tienda deportiva de confianza en Aipe, Huila. Ropa de ciclismo, running y deporte de alta calidad con los mejores precios de Colombia.
+        </p>
+        <div class="social-links">
+          <a class="social-link" href="#" aria-label="Facebook" title="Facebook">📘</a>
+          <a class="social-link" href="https://wa.me/573163784026" target="_blank" rel="noopener" aria-label="WhatsApp" title="WhatsApp">💬</a>
+          <a class="social-link" href="#" aria-label="Instagram" title="Instagram">📸</a>
+        </div>
+      </div>
+
+      <!-- Col 2: Categorías -->
+      <div class="footer-col">
+        <h4>Categorías</h4>
+        <ul>
+          <li><a href="#" onclick="filterByCategory('ciclismo');return false;">Ciclismo</a></li>
+          <li><a href="#" onclick="filterByCategory('triatlon');return false;">Triatlón</a></li>
+          <li><a href="#" onclick="filterByCategory('running');return false;">Running</a></li>
+          <li><a href="#" onclick="filterByCategory('gimnasio');return false;">Gimnasio &amp; Fitness</a></li>
+          <li><a href="#" onclick="filterByCategory('futbol');return false;">Fútbol</a></li>
+          <li><a href="#" onclick="filterByCategory('montana');return false;">Montaña</a></li>
+          <li><a href="#" onclick="filterByCategory('ofertas');return false;">🔥 Ofertas Especiales</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Contacto -->
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <div class="contact-item"><span>📍</span><span>Aipe, Huila, Colombia</span></div>
+        <div class="contact-item"><span>📞</span><span>312 4000506</span></div>
+        <div class="contact-item">
+          <span>💬</span>
+          <a href="https://wa.me/573163784026" target="_blank" rel="noopener">+57 316 3784026</a>
+        </div>
+        <div class="contact-item">
+          <span>✉️</span>
+          <a href="mailto:bettpublicidad@gmail.com">bettpublicidad@gmail.com</a>
+        </div>
+        <div class="contact-item"><span>🕐</span><span>Lun–Sáb: 8am–7pm</span></div>
+      </div>
+
+      <!-- Col 4: Info -->
+      <div class="footer-col">
+        <h4>Información</h4>
+        <ul>
+          <li><a href="#">Sobre Nosotros</a></li>
+          <li><a href="#">Envíos y Devoluciones</a></li>
+          <li><a href="#">Guía de Tallas</a></li>
+          <li><a href="#">Ropa Personalizada</a></li>
+          <li><a href="#">Preguntas Frecuentes</a></li>
+          <li><a href="#">Política de Privacidad</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">© 2025 <span>1413 Store Virtual</span> · Cycling &amp; Sport — Todos los derechos reservados</p>
+      <p class="footer-copyright">Hecho con ❤️ en Aipe, Huila, Colombia 🇨🇴</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

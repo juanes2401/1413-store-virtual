@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f3f4f6"/>
+  <rect x="60" y="70" width="680" height="460" rx="24" fill="#ffffff" stroke="#e5e7eb"/>
+  <text x="400" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#6b7280">
+    Imagen de producto
+  </text>
+  <text x="400" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#9ca3af">
+    Reemplaza con foto real
+  </text>
+</svg>
