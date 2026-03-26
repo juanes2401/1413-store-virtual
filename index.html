@@ -2020,6 +2020,78 @@
                 padding: 20px 24px;
             }
         }
+
+        /* ═══════════════════════════════════════
+           12. TOAST NOTIFICATIONS
+        ═══════════════════════════════════════ */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 9999;
+            pointer-events: none;
+            width: max-content;
+            max-width: 90vw;
+        }
+
+        .toast {
+            background: rgba(13, 13, 13, 0.95);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border-left: 4px solid var(--primary);
+            backdrop-filter: blur(8px);
+            animation: toastEnter 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            pointer-events: auto;
+        }
+
+        .toast.toast-success {
+            border-left-color: var(--success);
+        }
+
+        .toast.toast-fav {
+            border-left-color: #ff3366;
+        }
+
+        .toast.toast-remove {
+            border-left-color: var(--text-secondary);
+        }
+
+        .toast.hiding {
+            animation: toastExit 0.3s ease-in forwards;
+        }
+
+        @keyframes toastEnter {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes toastExit {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+        }
     </style>
 </head>
 
@@ -2567,6 +2639,10 @@
         </div>
     </footer>
 
+    <!-- ═══════════════════════════════════════
+       TOAST NOTIFICATIONS
+  ═══════════════════════════════════════ -->
+    <div id="toast-container" class="toast-container"></div>
     <script src="js/script.js"></script>
     
 </body>

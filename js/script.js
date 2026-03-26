@@ -314,7 +314,8 @@
             saveCart();
             updateCartBadge();
             renderCartItems();
-            openCart();
+            // openCart(); // Usamos Toasts en lugar de abrir el drawer
+            showToast(`✅ <strong>${product.name}</strong> añadido al carrito`, 'success');
 
             /* Animación badge */
             const badge = document.getElementById('cart-count');
@@ -395,10 +396,12 @@
                 favorites = favorites.filter(f => f !== id);
                 btn.classList.remove('active');
                 btn.textContent = '🤍';
+                showToast('🤍 Eliminado de favoritos', 'remove');
             } else {
                 favorites.push(id);
                 btn.classList.add('active');
                 btn.textContent = '❤️';
+                showToast('❤️ Añadido a favoritos', 'fav');
             }
             localStorage.setItem('1413_favs', JSON.stringify(favorites));
         }
@@ -483,6 +486,25 @@
             document.getElementById('sidebar-overlay').style.display = 'none';
             document.getElementById('sidebar-modal').style.display = 'none';
             document.body.style.overflow = '';
+        }
+
+        /* ─── TOAST NOTIFICATIONS ─── */
+        function showToast(message, type = 'default') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = message;
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                toast.addEventListener('animationend', () => {
+                    toast.remove();
+                });
+            }, 3000);
         }
 
         /* ─── INIT ─── */
