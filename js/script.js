@@ -477,14 +477,14 @@
         document.getElementById('filter-mobile-btn').addEventListener('click', openSidebarModal);
 
         function openSidebarModal() {
-            document.getElementById('sidebar-overlay').style.display = 'block';
-            document.getElementById('sidebar-modal').style.display = 'block';
+            document.getElementById('sidebar-overlay').classList.add('open');
+            document.getElementById('sidebar-modal').classList.add('open');
             document.body.style.overflow = 'hidden';
         }
 
         function closeSidebarModal() {
-            document.getElementById('sidebar-overlay').style.display = 'none';
-            document.getElementById('sidebar-modal').style.display = 'none';
+            document.getElementById('sidebar-overlay').classList.remove('open');
+            document.getElementById('sidebar-modal').classList.remove('open');
             document.body.style.overflow = '';
         }
 
