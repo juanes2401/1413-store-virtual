@@ -246,6 +246,86 @@
             background: var(--primary-dark);
         }
 
+        /* Autocompletar (sugerencias bajo el buscador) */
+        .search-suggestions {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            max-height: 340px;
+            overflow-y: auto;
+            z-index: 2200;
+        }
+
+        .search-suggestions.open {
+            display: block;
+        }
+
+        .search-suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s ease;
+        }
+
+        .search-suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-suggestion-item:hover,
+        .search-suggestion-item.is-active {
+            background: #f7f7f7;
+        }
+
+        .search-s-thumb {
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #eee, #f5f5f5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .search-s-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .search-s-meta {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .search-s-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--black);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .search-s-price {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
         /* Carrito */
         .header-actions {
             display: flex;
@@ -941,8 +1021,13 @@
 
         /* Imagen placeholder */
         @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         .product-img-wrap {
@@ -1269,6 +1354,44 @@
 
         .btn-checkout:hover {
             opacity: 0.85;
+        }
+
+        /* ═══════════════════════════════════════
+   9b. VOLVER ARRIBA + WHATSAPP (flotantes)
+═══════════════════════════════════════ */
+        #scroll-top-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 104px;
+            z-index: 1500;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: var(--black);
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease, background 0.2s ease;
+        }
+
+        #scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #scroll-top-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
         }
 
         /* ═══════════════════════════════════════
@@ -1644,6 +1767,15 @@
                 height: 54px;
                 font-size: 26px;
             }
+
+            /* Volver arriba: encima del WhatsApp en móvil */
+            #scroll-top-btn {
+                right: 22px;
+                bottom: 96px;
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1744,10 +1876,128 @@
             flex: 1;
             background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
             display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            padding: 24px;
+            min-width: 0;
+        }
+
+        .pm-carousel {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            height: 100%;
+        }
+
+        .pm-main-wrap {
+            position: relative;
+            flex: 1;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+        }
+
+        .pm-main-stage {
+            width: 100%;
+            height: 100%;
+            min-height: 220px;
+            display: flex;
             align-items: center;
             justify-content: center;
             font-size: 100px;
-            padding: 40px;
+            padding: 16px;
+        }
+
+        .pm-main-stage img {
+            max-width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .pm-carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #ddd;
+            color: var(--black);
+            font-size: 22px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .pm-carousel-arrow:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .pm-carousel-arrow.pm-prev {
+            left: 10px;
+        }
+
+        .pm-carousel-arrow.pm-next {
+            right: 10px;
+        }
+
+        .pm-carousel-arrow.is-hidden {
+            display: none;
+        }
+
+        .pm-thumbs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            min-height: 56px;
+        }
+
+        .pm-thumbs.is-hidden {
+            display: none;
+        }
+
+        .pm-thumb {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background: #fff;
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .pm-thumb:hover {
+            border-color: #ccc;
+        }
+
+        .pm-thumb.is-active {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        .pm-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .pm-info-col {
@@ -1898,9 +2148,17 @@
 
             .pm-image-col {
                 flex: none;
-                height: 220px;
-                padding: 20px;
+                min-height: 200px;
+                padding: 16px;
+            }
+
+            .pm-main-stage {
+                min-height: 160px;
                 font-size: 60px;
+            }
+
+            .pm-main-stage img {
+                max-height: 200px;
             }
 
             .pm-info-col {
@@ -2095,6 +2353,7 @@
                 opacity: 0;
                 transform: translateY(20px) scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -2106,6 +2365,7 @@
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
+
             to {
                 opacity: 0;
                 transform: translateY(20px) scale(0.9);
@@ -2148,9 +2408,12 @@
                 title="1413 Cycling Sport · Cycling &amp; Sport" />
         </div>
 
-        <div class="search-wrap">
-            <input type="text" id="search-input" placeholder="¿Qué buscas?" aria-label="Buscar productos" />
-            <button class="search-btn" aria-label="Buscar">🔍</button>
+        <div class="search-wrap" id="search-wrap">
+            <input type="text" id="search-input" placeholder="¿Qué buscas?" aria-label="Buscar productos"
+                autocomplete="off" />
+            <button type="button" class="search-btn" id="search-submit-btn" aria-label="Buscar">🔍</button>
+            <div id="search-suggestions" class="search-suggestions" role="listbox" aria-label="Sugerencias de búsqueda"
+                hidden></div>
         </div>
 
         <div class="header-actions">
@@ -2466,8 +2729,17 @@
     <div id="product-modal-overlay" onclick="closeProductModal()"></div>
     <div id="product-modal">
         <div class="product-modal-body">
-            <div class="pm-image-col" id="pm-image">
-                <!-- Icon loaded via JS -->
+            <div class="pm-image-col">
+                <div class="pm-carousel" id="pm-carousel">
+                    <div class="pm-main-wrap">
+                        <button type="button" class="pm-carousel-arrow pm-prev" id="pm-carousel-prev"
+                            aria-label="Imagen anterior">‹</button>
+                        <div class="pm-main-stage" id="pm-main-stage" aria-live="polite"></div>
+                        <button type="button" class="pm-carousel-arrow pm-next" id="pm-carousel-next"
+                            aria-label="Imagen siguiente">›</button>
+                    </div>
+                    <div class="pm-thumbs" id="pm-thumbs"></div>
+                </div>
             </div>
             <div class="pm-info-col">
                 <button class="pm-close" onclick="closeProductModal()" aria-label="Cerrar">✕</button>
@@ -2569,8 +2841,9 @@
     </div>
 
     <!-- ═══════════════════════════════════════
-       10. WHATSAPP FLOTANTE
-  ═══════════════════════════════════════ -->
+       10. VOLVER ARRIBA + WHATSAPP FLOTANTE
+    ═══════════════════════════════════════ -->
+    <button type="button" id="scroll-top-btn" aria-label="Volver arriba" title="Volver arriba">↑</button>
     <div id="wa-float">
         <div class="wa-bubble">¡Chatea con nosotros! 💬</div>
         <a class="wa-btn"
@@ -2663,7 +2936,7 @@
   ═══════════════════════════════════════ -->
     <div id="toast-container" class="toast-container"></div>
     <script src="js/script.js"></script>
-    
+
 </body>
 
 </html>

@@ -2,7 +2,20 @@
 
         /* ─── DATOS DE PRODUCTOS ─── */
         const PRODUCTS = [
-            { id: 1, name: 'Jersey Pro 1413', brand: '1413 Cycling Sport', icon: '🚴', cat: 'ciclismo', price: 89900, oldPrice: 249900, discount: 64, sizes: ['S', 'M', 'L', 'XL'], new: false },
+            /* images: rutas opcionales (varias fotos = carrusel con miniaturas). Si no hay, se usa el icono. */
+            {
+                id: 1,
+                name: 'Jersey Pro 1413',
+                brand: '1413 Cycling Sport',
+                icon: '🚴',
+                cat: 'ciclismo',
+                price: 89900,
+                oldPrice: 249900,
+                discount: 64,
+                sizes: ['S', 'M', 'L', 'XL'],
+                new: false,
+                images: ['assets/images/placeholder.svg', 'assets/images/placeholder.svg'],
+            },
             { id: 2, name: 'Culote Aero Carbon', brand: '1413 Cycling Sport', icon: '🩱', cat: 'ciclismo', price: 119900, oldPrice: 349900, discount: 66, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
             { id: 3, name: 'Maillot Montaña X', brand: '1413 Cycling Sport', icon: '⛰️', cat: 'montana', price: 79900, oldPrice: 229900, discount: 65, sizes: ['S', 'M', 'L'], new: false },
             { id: 4, name: 'Short Running Pro', brand: '1413 Cycling Sport', icon: '🏃', cat: 'running', price: 49900, oldPrice: 149900, discount: 67, sizes: ['S', 'M', 'L', 'XL'], new: false },
@@ -129,13 +142,18 @@
             /* Filtro búsqueda */
             if (searchQuery) {
                 const q = searchQuery.toLowerCase();
-                list = list.filter(p => p.name.toLowerCase().includes(q) || p.cat.includes(q));
+                list = list.filter(p =>
+                    p.name.toLowerCase().includes(q) ||
+                    p.cat.includes(q) ||
+                    (p.brand && p.brand.toLowerCase().includes(q))
+                );
             }
 
             return list;
         }
 
         function applyFilters() {
+            hideSearchSuggestions();
             const catChecks = document.querySelectorAll('[data-filter-cat]:checked');
             const activeSizes = [...document.querySelectorAll('.size-btn.active')].map(b => b.dataset.size);
             const maxPrice = parseInt(document.getElementById('price-range').value);
@@ -164,12 +182,14 @@
             currentFilter = 'todos';
             searchQuery = '';
             document.getElementById('search-input').value = '';
+            hideSearchSuggestions();
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.querySelector('[data-cat="todos"]').classList.add('active');
             renderProducts(PRODUCTS);
         }
 
         function filterByCategory(cat) {
+            hideSearchSuggestions();
             currentFilter = cat;
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             const link = document.querySelector(`[data-cat="${cat}"]`);
@@ -181,6 +201,7 @@
 
         /* ─── ORDENAR ─── */
         function sortProducts(mode) {
+            hideSearchSuggestions();
             const list = getFilteredProducts();
             if (mode === 'low') list.sort((a, b) => a.price - b.price);
             if (mode === 'high') list.sort((a, b) => b.price - a.price);
@@ -201,12 +222,92 @@
 
         document.getElementById('price-range').addEventListener('input', updatePriceLabel);
 
-        /* ─── MODAL PRODUCTO ─── */
+        /* ─── MODAL PRODUCTO (carrusel de imágenes) ─── */
+        let pmCarouselSlides = [];
+        let pmCarouselIndex = 0;
+        let currentModalProduct = null;
+
+        function getSlidesForProduct(product) {
+            if (product.images && product.images.length > 0) {
+                return product.images.map((src) => ({ type: 'img', src }));
+            }
+            return [{ type: 'icon', value: product.icon }];
+        }
+
+        function renderPmSlide() {
+            const stage = document.getElementById('pm-main-stage');
+            const slide = pmCarouselSlides[pmCarouselIndex];
+            if (!slide || !stage) return;
+
+            const alt = currentModalProduct ? currentModalProduct.name : '';
+            if (slide.type === 'img') {
+                stage.innerHTML = `<img src="${slide.src}" alt="${alt.replace(/"/g, '&quot;')}" />`;
+            } else {
+                stage.innerHTML = '';
+                stage.textContent = slide.value;
+            }
+
+            document.querySelectorAll('#pm-thumbs .pm-thumb').forEach((t, i) => {
+                t.classList.toggle('is-active', i === pmCarouselIndex);
+            });
+        }
+
+        function setupPmCarousel(product) {
+            pmCarouselSlides = getSlidesForProduct(product);
+            pmCarouselIndex = 0;
+
+            const prev = document.getElementById('pm-carousel-prev');
+            const next = document.getElementById('pm-carousel-next');
+            const thumbs = document.getElementById('pm-thumbs');
+            const multi = pmCarouselSlides.length > 1;
+
+            if (prev) prev.classList.toggle('is-hidden', !multi);
+            if (next) next.classList.toggle('is-hidden', !multi);
+            if (thumbs) thumbs.classList.toggle('is-hidden', !multi);
+
+            if (multi && thumbs) {
+                thumbs.innerHTML = pmCarouselSlides.map((s, i) => {
+                    if (s.type === 'img') {
+                        return `<button type="button" class="pm-thumb${i === 0 ? ' is-active' : ''}" data-idx="${i}" aria-label="Foto ${i + 1}"><img src="${s.src}" alt="" /></button>`;
+                    }
+                    return `<button type="button" class="pm-thumb${i === 0 ? ' is-active' : ''}" data-idx="${i}" aria-label="Vista ${i + 1}">${s.value}</button>`;
+                }).join('');
+
+                thumbs.querySelectorAll('.pm-thumb').forEach((btn) => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        pmCarouselIndex = parseInt(btn.getAttribute('data-idx'), 10);
+                        renderPmSlide();
+                    });
+                });
+            } else if (thumbs) {
+                thumbs.innerHTML = '';
+            }
+
+            if (prev) {
+                prev.onclick = (e) => {
+                    e.stopPropagation();
+                    pmCarouselIndex = (pmCarouselIndex - 1 + pmCarouselSlides.length) % pmCarouselSlides.length;
+                    renderPmSlide();
+                };
+            }
+            if (next) {
+                next.onclick = (e) => {
+                    e.stopPropagation();
+                    pmCarouselIndex = (pmCarouselIndex + 1) % pmCarouselSlides.length;
+                    renderPmSlide();
+                };
+            }
+
+            renderPmSlide();
+        }
+
         function openProductModal(id) {
             const product = PRODUCTS.find(p => p.id === id);
             if (!product) return;
 
-            document.getElementById('pm-image').innerHTML = product.icon;
+            currentModalProduct = product;
+            setupPmCarousel(product);
             document.getElementById('pm-brand').textContent = product.brand;
             document.getElementById('pm-name').textContent = product.name;
             document.getElementById('pm-price').textContent = formatCOP(product.price);
@@ -264,6 +365,7 @@
             const overlay = document.getElementById('product-modal-overlay');
             const modal = document.getElementById('product-modal');
 
+            currentModalProduct = null;
             modal.classList.remove('show');
             setTimeout(() => {
                 overlay.style.display = 'none';
@@ -437,16 +539,158 @@
         hero.addEventListener('mouseleave', startSlider);
         startSlider();
 
-        /* ─── NAVBAR STICKY ─── */
+        /* ─── NAVBAR STICKY + VOLVER ARRIBA ─── */
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
         window.addEventListener('scroll', () => {
             document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
-        });
+            if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', window.scrollY > 380);
+        }, { passive: true });
 
-        /* ─── BUSCADOR ─── */
-        document.getElementById('search-input').addEventListener('input', (e) => {
+        if (scrollTopBtn) {
+            scrollTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        /* ─── BUSCADOR + AUTocompletar ─── */
+        let searchSuggestionIndex = -1;
+
+        function getSearchSuggestionMatches(q) {
+            if (!q || q.length < 1) return [];
+            const ql = q.toLowerCase();
+            return PRODUCTS.filter((p) =>
+                p.name.toLowerCase().includes(ql) ||
+                p.cat.includes(ql) ||
+                (p.brand && p.brand.toLowerCase().includes(ql))
+            ).slice(0, 8);
+        }
+
+        function suggestionThumbHtml(p) {
+            if (p.images && p.images[0]) {
+                return `<img src="${p.images[0]}" alt="" />`;
+            }
+            return p.icon;
+        }
+
+        function setActiveSearchSuggestion(items) {
+            items.forEach((el, i) => {
+                el.classList.toggle('is-active', i === searchSuggestionIndex);
+            });
+        }
+
+        function renderSearchSuggestions() {
+            const box = document.getElementById('search-suggestions');
+            const input = document.getElementById('search-input');
+            if (!box || !input) return;
+
+            const q = input.value.trim();
+            const matches = getSearchSuggestionMatches(q);
+
+            if (matches.length === 0 || !q) {
+                box.classList.remove('open');
+                box.hidden = true;
+                box.innerHTML = '';
+                searchSuggestionIndex = -1;
+                return;
+            }
+
+            searchSuggestionIndex = -1;
+            box.hidden = false;
+            box.classList.add('open');
+            box.innerHTML = matches.map((p) => `
+    <div class="search-suggestion-item" role="option" data-id="${p.id}">
+      <div class="search-s-thumb">${suggestionThumbHtml(p)}</div>
+      <div class="search-s-meta">
+        <div class="search-s-name">${p.name}</div>
+        <div class="search-s-price">${formatCOP(p.price)}</div>
+      </div>
+    </div>
+  `).join('');
+
+            box.querySelectorAll('.search-suggestion-item').forEach((el) => {
+                el.addEventListener('mousedown', (e) => e.preventDefault());
+                el.addEventListener('click', () => {
+                    const id = parseInt(el.getAttribute('data-id'), 10);
+                    const prod = PRODUCTS.find((pr) => pr.id === id);
+                    if (!prod) return;
+                    input.value = prod.name;
+                    searchQuery = prod.name;
+                    hideSearchSuggestions();
+                    renderProducts(getFilteredProducts());
+                    openProductModal(id);
+                    const main = document.getElementById('main-content');
+                    if (main) main.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+        }
+
+        function hideSearchSuggestions() {
+            const box = document.getElementById('search-suggestions');
+            if (!box) return;
+            box.classList.remove('open');
+            box.hidden = true;
+            box.innerHTML = '';
+            searchSuggestionIndex = -1;
+        }
+
+        const searchInputEl = document.getElementById('search-input');
+        searchInputEl.addEventListener('input', (e) => {
             searchQuery = e.target.value.trim();
             renderProducts(getFilteredProducts());
+            renderSearchSuggestions();
         });
+
+        searchInputEl.addEventListener('focus', () => {
+            renderSearchSuggestions();
+        });
+
+        searchInputEl.addEventListener('blur', () => {
+            setTimeout(hideSearchSuggestions, 200);
+        });
+
+        searchInputEl.addEventListener('keydown', (e) => {
+            const box = document.getElementById('search-suggestions');
+            if (!box || !box.classList.contains('open')) {
+                if (e.key === 'Escape') hideSearchSuggestions();
+                return;
+            }
+
+            const items = [...box.querySelectorAll('.search-suggestion-item')];
+            if (items.length === 0) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                searchSuggestionIndex = Math.min(searchSuggestionIndex + 1, items.length - 1);
+                setActiveSearchSuggestion(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                searchSuggestionIndex = Math.max(searchSuggestionIndex - 1, -1);
+                setActiveSearchSuggestion(items);
+            } else if (e.key === 'Enter' && searchSuggestionIndex >= 0) {
+                e.preventDefault();
+                const id = parseInt(items[searchSuggestionIndex].getAttribute('data-id'), 10);
+                const prod = PRODUCTS.find((pr) => pr.id === id);
+                if (prod) {
+                    searchInputEl.value = prod.name;
+                    searchQuery = prod.name;
+                    hideSearchSuggestions();
+                    renderProducts(getFilteredProducts());
+                    openProductModal(id);
+                }
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                hideSearchSuggestions();
+            }
+        });
+
+        const searchSubmitBtn = document.getElementById('search-submit-btn');
+        if (searchSubmitBtn) {
+            searchSubmitBtn.addEventListener('click', () => {
+                hideSearchSuggestions();
+                const main = document.getElementById('main-content');
+                if (main) main.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
 
         /* ─── NAVBAR LINKS ─── */
         document.querySelectorAll('.nav-link').forEach(link => {
