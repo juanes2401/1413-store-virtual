@@ -2375,6 +2375,16 @@
 </head>
 
 <body>
+    <script>
+        window.onerror = function(msg, url, line, col, err) {
+            document.write('<div style="color:red; background:white; padding:20px; z-index:99999; position:absolute; top:0; left:0; width:100%; height:100vh;">' +
+                '<h1>Error Detectado</h1>' +
+                '<b>Msg:</b> ' + msg + '<br>' +
+                '<b>Line:</b> ' + line + ':' + col + '<br>' +
+                '<pre>' + (err ? err.stack : '') + '</pre></div>'
+            );
+        };
+    </script>
 
     <!-- ═══════════════════════════════════════
        1. TOPBAR
@@ -2436,6 +2446,7 @@
         <a href="#" class="nav-link" data-cat="gimnasio">GIMNASIO</a>
         <a href="#" class="nav-link" data-cat="futbol">FÚTBOL</a>
         <a href="#" class="nav-link" data-cat="montana">MONTAÑA</a>
+        <a href="#" class="nav-link" data-cat="gafas">🕶️ GAFAS</a>
         <a href="#" class="nav-link" data-cat="ofertas">🔥 OFERTAS</a>
     </nav>
 
@@ -2579,6 +2590,10 @@
                         <input type="checkbox" data-filter-cat="triatlon" />
                         <span class="check-box"></span> Triatlón
                     </label>
+                    <label class="filter-check">
+                        <input type="checkbox" data-filter-cat="gafas" />
+                        <span class="check-box"></span> Gafas
+                    </label>
                 </div>
 
                 <!-- Precio -->
@@ -2706,6 +2721,8 @@
                     class="check-box"></span> Gimnasio</label>
             <label class="filter-check"><input type="checkbox" data-filter-cat-m="futbol" /><span
                     class="check-box"></span> Fútbol</label>
+            <label class="filter-check"><input type="checkbox" data-filter-cat-m="gafas" /><span
+                    class="check-box"></span> Gafas</label>
         </div>
         <div class="filter-section">
             <h4>Talla</h4>
@@ -2752,7 +2769,7 @@
                     <span class="pm-discount-badge" id="pm-discount">-0%</span>
                 </div>
 
-                <p class="pm-desc">
+                <p class="pm-desc" id="pm-desc">
                     Esta es una descripción de ejemplo del producto. Más adelante aquí verás información detallada,
                     características técnicas, y consejos de lavado o uso para que saques el máximo provecho a tu compra.
                     ¡Calidad garantizada!

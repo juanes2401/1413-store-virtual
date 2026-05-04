@@ -3,14 +3,6 @@
         /* ─── DATOS DE PRODUCTOS ─── */
         const PRODUCTS = [
             /* images: rutas opcionales (varias fotos = carrusel con miniaturas). Si no hay, se usa el icono. */
-            {
-                id: 1,
-                name: 'Jersey Pro 1413',
-                brand: '1413 Cycling Sport',
-                icon: '🚴',
-                cat: 'ciclismo',
-                price: 89900,
-                oldPrice: 249900,
             { id: 1, name: 'Jersey Pro 1413', brand: '1413 Cycling Sport', icon: '🚴', images: ['🚴', '📦', '⭐'], cat: 'ciclismo', price: 89900, oldPrice: 249900, discount: 64, sizes: ['S', 'M', 'L', 'XL'], new: false },
             { id: 2, name: 'Culote Aero Carbon', brand: '1413 Cycling Sport', icon: '🩱', images: ['🩱', '🏃', '🔥'], cat: 'ciclismo', price: 119900, oldPrice: 349900, discount: 66, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
             { id: 3, name: 'Maillot Montaña X', brand: '1413 Cycling Sport', icon: '⛰️', cat: 'montana', price: 79900, oldPrice: 229900, discount: 65, sizes: ['S', 'M', 'L'], new: false },
@@ -27,6 +19,19 @@
             { id: 14, name: 'Camiseta Fútbol Retro', brand: '1413 Cycling Sport', icon: '👕', cat: 'futbol', price: 45900, oldPrice: 129900, discount: 65, sizes: ['S', 'M', 'L', 'XL'], new: false },
             { id: 15, name: 'Pantalón Montaña Tech', brand: '1413 Cycling Sport', icon: '🏔️', cat: 'montana', price: 89900, oldPrice: 259900, discount: 65, sizes: ['M', 'L', 'XL'], new: false },
             { id: 16, name: 'Kit Triatlón Completo', brand: '1413 Cycling Sport', icon: '🏅', cat: 'triatlon', price: 249900, oldPrice: 699900, discount: 64, sizes: ['S', 'M', 'L'], new: true },
+            { 
+                id: 17, 
+                name: 'Gafas para running', 
+                brand: '1413 Cycling Sport', 
+                icon: '🕶️', 
+                cat: 'gafas', 
+                price: 45000, 
+                oldPrice: 45000, 
+                discount: 0, 
+                sizes: ['Única'], 
+                new: true,
+                desc: 'Rendimiento y protección en cada kilómetro.<br>• Diseño ultra ligero que no incomoda durante el movimiento<br>• Lentes con protección UV para cuidar tus ojos del sol<br>• Ajuste ergónomico que evita que se deslicen al correr<br>• Ideales para running, ciclismo y actividades al aire libre'
+            },
         ];
 
         /* ─── ESTADO ─── */
@@ -307,6 +312,15 @@
             document.getElementById('pm-brand').textContent = product.brand;
             document.getElementById('pm-name').textContent = product.name;
             document.getElementById('pm-price').textContent = formatCOP(product.price);
+
+            const descEl = document.getElementById('pm-desc');
+            if (descEl) {
+                if (product.desc) {
+                    descEl.innerHTML = product.desc;
+                } else {
+                    descEl.textContent = 'Esta es una descripción de ejemplo del producto. Más adelante aquí verás información detallada, características técnicas, y consejos de lavado o uso para que saques el máximo provecho a tu compra. ¡Calidad garantizada!';
+                }
+            }
 
             const oldPriceEl = document.getElementById('pm-old-price');
             const discountEl = document.getElementById('pm-discount');
