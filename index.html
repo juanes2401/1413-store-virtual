@@ -174,36 +174,62 @@
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
         }
 
-        /* Logo imagen real */
+        /* Logo circular (referencia: círculo blanco + halo suave) */
         .logo-wrap {
             display: flex;
             align-items: center;
+            justify-content: center;
             flex-shrink: 0;
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: #ffffff;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.35),
+                0 0 18px rgba(204, 0, 0, 0.35),
+                0 0 36px rgba(255, 255, 255, 0.12);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .logo-wrap:hover {
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.45),
+                0 0 26px rgba(204, 0, 0, 0.55),
+                0 0 48px rgba(255, 255, 255, 0.18);
+            transform: scale(1.04);
         }
 
         .brand-logo-img {
-            height: 66px;
-            width: auto;
-            background: #ffffff;
-            border-radius: 40px;
-            padding: 2px 6px;
-            box-shadow: 0 0 16px rgba(204, 0, 0, 0.45);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             display: block;
+            padding: 6px;
+            box-sizing: border-box;
         }
 
-        .brand-logo-img:hover {
-            box-shadow: 0 0 28px rgba(204, 0, 0, 0.75);
-            transform: scale(1.03);
+        .footer-logo-wrap {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #ffffff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.12),
+                0 0 14px rgba(204, 0, 0, 0.28);
         }
 
         .brand-logo-img-footer {
-            height: 56px;
-            width: auto;
-            background: #ffffff;
-            border-radius: 40px;
-            padding: 2px 6px;
-            margin-bottom: 12px;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
+            box-sizing: border-box;
             display: block;
         }
 
@@ -2913,7 +2939,9 @@
 
             <!-- Col 1: Logo + desc -->
             <div class="footer-col">
-                <img class="brand-logo-img-footer" src="logo.png" alt="1413 Cycling & Sport" />
+                <div class="footer-logo-wrap">
+                    <img class="brand-logo-img-footer" src="logo.png" alt="1413 Cycling & Sport" />
+                </div>
                 <p class="footer-desc">
                     Tu fábrica de ropa deportiva en Aipe, Huila. Ropa de ciclismo, running y deporte de alta calidad
                     con los mejores precios de Colombia.
