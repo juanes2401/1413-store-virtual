@@ -43,7 +43,9 @@
                 const qty = typeof c === 'object' && c !== null && c.qty ? Number(c.qty) : 1;
                 const prod = PRODUCTS.find(p => p.id === id);
                 if (!prod) return null;
-                return { id: prod.id, qty: isNaN(qty) ? 1 : qty, name: prod.name, price: prod.price, icon: prod.icon };
+                const size = typeof c === 'object' && c !== null ? c.size : null;
+                const image = typeof c === 'object' && c !== null ? c.image : null;
+                return { id: prod.id, qty: isNaN(qty) ? 1 : qty, name: prod.name, price: prod.price, icon: prod.icon, size, image };
             })
             .filter(Boolean);
         let favorites = JSON.parse(localStorage.getItem('1413_favs') || '[]');
@@ -367,7 +369,21 @@
 
             const addBtn = document.getElementById('pm-add-btn');
             addBtn.onclick = function () {
-                addToCart(product.id);
+                let size = null;
+                let image = null;
+                const activeSizeBtn = document.querySelector('.pm-size-btn.selected');
+                if (activeSizeBtn) {
+                    size = activeSizeBtn.textContent;
+                    if (product.images && product.images.length > 0) {
+                        const idx = activeSizeBtn.getAttribute('data-idx');
+                        if (idx !== null && product.images[idx]) {
+                            image = product.images[idx];
+                        }
+                    }
+                } else if (product.images && product.images.length > 0) {
+                    image = product.images[0];
+                }
+                addToCart(product.id, size, image);
                 closeProductModal();
             };
 
@@ -426,15 +442,22 @@
         }
 
         /* ─── CARRITO ─── */
-        function addToCart(id) {
+        function addToCart(id, size = null, image = null) {
             const product = PRODUCTS.find(p => p.id === id);
             if (!product) return;
 
-            const existing = cart.find(c => c.id === id);
+            if (!image && product.images && product.images.length > 0) {
+                image = product.images[0];
+            }
+            if (!size && product.sizes && product.sizes.length > 0) {
+                size = product.sizes[0];
+            }
+
+            const existing = cart.find(c => c.id === id && c.size === size);
             if (existing) {
                 existing.qty++;
             } else {
-                cart.push({ id, qty: 1, name: product.name, price: product.price, icon: product.icon });
+                cart.push({ id, qty: 1, name: product.name, price: product.price, icon: product.icon, size, image });
             }
 
             saveCart();
@@ -450,8 +473,8 @@
             badge.style.animation = 'bounceIn 0.4s ease';
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(c => c.id !== id);
+        function removeFromCart(index) {
+            cart.splice(index, 1);
             saveCart();
             updateCartBadge();
             renderCartItems();
@@ -476,14 +499,14 @@
                 return;
             }
 
-            list.innerHTML = cart.map(c => `
+            list.innerHTML = cart.map((c, index) => `
     <div class="cart-item">
-      <div class="cart-item-img">${c.icon}</div>
+      <div class="cart-item-img">${c.image ? `<img src="${c.image}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : c.icon}</div>
       <div class="cart-item-info">
-        <div class="cart-item-name">${c.name} ×${c.qty}</div>
+        <div class="cart-item-name">${c.name} ${c.size ? `(${c.size})` : ''} ×${c.qty}</div>
         <div class="cart-item-price">${formatCOP(c.price * c.qty)}</div>
       </div>
-      <button class="cart-item-remove" data-remove="${c.id}" aria-label="Eliminar">✕</button>
+      <button class="cart-item-remove" data-remove="${index}" aria-label="Eliminar">✕</button>
     </div>
   `).join('');
 
@@ -496,7 +519,7 @@
             footer.style.display = 'block';
 
             /* Actualizar link WhatsApp con productos */
-            const msg = encodeURIComponent('Hola! Me interesa comprar:\n' + cart.map(c => `• ${c.name} ×${c.qty} — ${formatCOP(c.price * c.qty)}`).join('\n') + `\nTotal: ${formatCOP(total)}`);
+            const msg = encodeURIComponent('Hola! Me interesa comprar:\n' + cart.map(c => `• ${c.name} ${c.size ? `(${c.size})` : ''} ×${c.qty} — ${formatCOP(c.price * c.qty)}`).join('\n') + `\nTotal: ${formatCOP(total)}`);
             document.getElementById('wa-checkout').href = `https://wa.me/573163784026?text=${msg}`;
         }
 
