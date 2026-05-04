@@ -24,11 +24,12 @@
                 name: 'Gafas para running', 
                 brand: '1413 Cycling Sport', 
                 icon: '🕶️', 
+                images: ['img/gafas blancas con morado.jpeg', 'img/gafas blancas con rojo.jpeg', 'img/gafas blancas.jpeg', 'img/gafas negras con colores.jpeg', 'img/gafas negras.jpeg'],
                 cat: 'gafas', 
                 price: 45000, 
                 oldPrice: 45000, 
                 discount: 0, 
-                sizes: ['Única'], 
+                sizes: ['Blanca/Morado', 'Blanca/Rojo', 'Blanca/Plata', 'Negra/Color', 'Negra/Plata'], 
                 new: true,
                 desc: 'Rendimiento y protección en cada kilómetro.<br>• Diseño ultra ligero que no incomoda durante el movimiento<br>• Lentes con protección UV para cuidar tus ojos del sol<br>• Ajuste ergónomico que evita que se deslicen al correr<br>• Ideales para running, ciclismo y actividades al aire libre'
             },
@@ -332,6 +333,11 @@
             } else {
                 oldPriceEl.style.display = 'none';
                 discountEl.style.display = 'none';
+            }
+
+            const sizeTitleEl = document.getElementById('pm-size-title');
+            if (sizeTitleEl) {
+                sizeTitleEl.textContent = product.cat === 'gafas' ? 'Estilos disponibles' : 'Tallas disponibles';
             }
 
             const sizesContainer = document.getElementById('pm-sizes');
