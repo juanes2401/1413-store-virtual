@@ -3,8 +3,8 @@
         /* ─── DATOS DE PRODUCTOS ─── */
         const PRODUCTS = [
             /* images: rutas opcionales (varias fotos = carrusel con miniaturas). Si no hay, se usa el icono. */
-            { id: 1, name: 'Jersey Pro 1413', brand: '1413 Cycling & Sport', icon: '🚴', images: ['🚴', '📦', '⭐'], cat: 'ciclismo', price: 89900, oldPrice: 249900, discount: 64, sizes: ['S', 'M', 'L', 'XL'], new: false },
-            { id: 2, name: 'Culote Aero Carbon', brand: '1413 Cycling & Sport', icon: '🩱', images: ['🩱', '🏃', '🔥'], cat: 'ciclismo', price: 119900, oldPrice: 349900, discount: 66, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
+            { id: 1, name: 'Jersey Pro 1413', brand: '1413 Cycling & Sport', icon: '🚴', cat: 'ciclismo', price: 89900, oldPrice: 249900, discount: 64, sizes: ['S', 'M', 'L', 'XL'], new: false },
+            { id: 2, name: 'Culote Aero Carbon', brand: '1413 Cycling & Sport', icon: '🩱', cat: 'ciclismo', price: 119900, oldPrice: 349900, discount: 66, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
             { id: 3, name: 'Maillot Montaña X', brand: '1413 Cycling & Sport', icon: '⛰️', cat: 'montana', price: 79900, oldPrice: 229900, discount: 65, sizes: ['S', 'M', 'L'], new: false },
             { id: 4, name: 'Short Running Pro', brand: '1413 Cycling & Sport', icon: '🏃', cat: 'running', price: 49900, oldPrice: 149900, discount: 67, sizes: ['S', 'M', 'L', 'XL'], new: false },
             { id: 5, name: 'Camiseta Gym Power', brand: '1413 Cycling & Sport', icon: '💪', cat: 'gimnasio', price: 39900, oldPrice: 109900, discount: 64, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
@@ -24,7 +24,7 @@
                 name: 'Gafas para running',
                 brand: '1413 Cycling & Sport',
                 icon: '🕶️',
-                images: ['img/gafas negras con colores.jpeg', 'img/gafas blancas con morado.jpeg', 'img/gafas blancas con rojo.jpeg', 'img/gafas blancas.jpeg', 'img/gafas negras.jpeg'],
+                /* Cuando tengas las fotos en disco, descomenta o agrega images: ['img/archivo.jpeg', ...] */
                 cat: 'gafas',
                 /* Aparece en Running y en Gafas (sidebar / navbar si existe) */
                 cats: ['gafas', 'running'],
@@ -58,6 +58,27 @@
         const formatCOP = (n) =>
             new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n);
 
+        /** Solo rutas/URLs reales de imagen (evita emojis o texto en <img src="...">). */
+        function isProductImageSrc(src) {
+            if (!src || typeof src !== 'string') return false;
+            const s = src.trim();
+            if (!s) return false;
+            if (/^https?:\/\//i.test(s)) return true;
+            if (/\.(jpe?g|png|gif|webp|svg|avif|bmp)(\?|#|$)/i.test(s)) return true;
+            return false;
+        }
+
+        function getValidImageUrls(product) {
+            if (!product || !Array.isArray(product.images) || product.images.length === 0) return [];
+            return product.images.filter(isProductImageSrc);
+        }
+
+        function primaryCardVisual(p) {
+            const urls = getValidImageUrls(p);
+            if (urls.length > 0) return { kind: 'img', src: urls[0] };
+            return { kind: 'icon', value: p.icon || '🛒' };
+        }
+
         /* ─── RENDER PRODUCTOS ─── */
         function renderProducts(list) {
             const grid = document.getElementById('products-grid');
@@ -75,6 +96,11 @@
 
             list.forEach((p) => {
                 const isFav = favorites.includes(p.id);
+                const vis = primaryCardVisual(p);
+                const placeholderInner = vis.kind === 'img'
+                    ? `<img class="product-card-img" src="${vis.src}" alt="${String(p.name).replace(/"/g, '&quot;')}" loading="lazy">`
+                    : vis.value;
+
                 const card = document.createElement('article');
                 card.className = 'product-card';
                 card.dataset.id = p.id;
@@ -83,7 +109,7 @@
 
                 card.innerHTML = `
       <div class="product-img-wrap">
-        <div class="product-img-placeholder">${(p.images && p.images.length > 0) ? `<img style="width:100%;height:100%;object-fit:cover;" src="${p.images[0]}" alt="${p.name}">` : p.icon}</div>
+        <div class="product-img-placeholder">${placeholderInner}</div>
         ${p.discount > 0 ? `<div class="discount-badge">-${p.discount}%</div>` : ''}
         <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${p.id}" aria-label="Favorito" title="Agregar a favoritos">
           ${isFav ? '❤️' : '🤍'}
@@ -244,10 +270,11 @@
         let currentModalProduct = null;
 
         function getSlidesForProduct(product) {
-            if (product.images && product.images.length > 0) {
-                return product.images.map((src) => ({ type: 'img', src }));
+            const urls = getValidImageUrls(product);
+            if (urls.length > 0) {
+                return urls.map((src) => ({ type: 'img', src }));
             }
-            return [{ type: 'icon', value: product.icon }];
+            return [{ type: 'icon', value: product.icon || '🛒' }];
         }
 
         function renderPmSlide() {
@@ -386,14 +413,18 @@
                 const activeSizeBtn = document.querySelector('.pm-size-btn.selected');
                 if (activeSizeBtn) {
                     size = activeSizeBtn.textContent;
-                    if (product.images && product.images.length > 0) {
-                        const idx = activeSizeBtn.getAttribute('data-idx');
-                        if (idx !== null && product.images[idx]) {
-                            image = product.images[idx];
+                    const validImgs = getValidImageUrls(product);
+                    if (validImgs.length > 0) {
+                        const idx = parseInt(activeSizeBtn.getAttribute('data-idx'), 10);
+                        if (!isNaN(idx) && validImgs[idx]) {
+                            image = validImgs[idx];
                         }
                     }
-                } else if (product.images && product.images.length > 0) {
-                    image = product.images[0];
+                } else {
+                    const validImgs = getValidImageUrls(product);
+                    if (validImgs.length > 0) {
+                        image = validImgs[0];
+                    }
                 }
                 addToCart(product.id, size, image);
                 closeProductModal();
@@ -458,8 +489,9 @@
             const product = PRODUCTS.find(p => p.id === id);
             if (!product) return;
 
-            if (!image && product.images && product.images.length > 0) {
-                image = product.images[0];
+            if (!image) {
+                const v = getValidImageUrls(product);
+                if (v.length > 0) image = v[0];
             }
             if (!size && product.sizes && product.sizes.length > 0) {
                 size = product.sizes[0];
@@ -513,7 +545,7 @@
 
             list.innerHTML = cart.map((c, index) => `
     <div class="cart-item">
-      <div class="cart-item-img">${c.image ? `<img src="${c.image}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : c.icon}</div>
+      <div class="cart-item-img">${c.image && isProductImageSrc(c.image) ? `<img src="${c.image}" alt="${String(c.name).replace(/"/g, '&quot;')}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">` : c.icon}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${c.name} ${c.size ? `(${c.size})` : ''} ×${c.qty}</div>
         <div class="cart-item-price">${formatCOP(c.price * c.qty)}</div>
@@ -628,10 +660,11 @@
         }
 
         function suggestionThumbHtml(p) {
-            if (p.images && p.images[0]) {
-                return `<img src="${p.images[0]}" alt="" />`;
+            const urls = getValidImageUrls(p);
+            if (urls.length > 0) {
+                return `<img src="${urls[0]}" alt="" />`;
             }
-            return p.icon;
+            return p.icon || '🛒';
         }
 
         function setActiveSearchSuggestion(items) {
