@@ -342,7 +342,7 @@
 
             const sizesContainer = document.getElementById('pm-sizes');
             if (product.sizes && product.sizes.length > 0) {
-                sizesContainer.innerHTML = product.sizes.map(s => `<button class="pm-size-btn">${s}</button>`).join('');
+                sizesContainer.innerHTML = product.sizes.map((s, idx) => `<button class="pm-size-btn" data-idx="${idx}">${s}</button>`).join('');
 
                 // Active state
                 const sizeBtns = sizesContainer.querySelectorAll('.pm-size-btn');
@@ -350,6 +350,14 @@
                     btn.addEventListener('click', () => {
                         sizeBtns.forEach(b => b.classList.remove('selected'));
                         btn.classList.add('selected');
+
+                        if (product.cat === 'gafas' && typeof pmCarouselIndex !== 'undefined' && pmCarouselSlides.length > 1) {
+                            const slideIdx = parseInt(btn.getAttribute('data-idx'), 10);
+                            if (!isNaN(slideIdx) && slideIdx < pmCarouselSlides.length) {
+                                pmCarouselIndex = slideIdx;
+                                renderPmSlide();
+                            }
+                        }
                     });
                 });
                 if (sizeBtns.length > 0) sizeBtns[0].classList.add('selected');
