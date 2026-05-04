@@ -24,12 +24,12 @@
                 name: 'Gafas para running', 
                 brand: '1413 Cycling Sport', 
                 icon: '🕶️', 
-                images: ['img/gafas blancas con morado.jpeg', 'img/gafas blancas con rojo.jpeg', 'img/gafas blancas.jpeg', 'img/gafas negras con colores.jpeg', 'img/gafas negras.jpeg'],
+                images: ['img/gafas negras con colores.jpeg', 'img/gafas blancas con morado.jpeg', 'img/gafas blancas con rojo.jpeg', 'img/gafas blancas.jpeg', 'img/gafas negras.jpeg'],
                 cat: 'gafas', 
                 price: 45000, 
                 oldPrice: 45000, 
                 discount: 0, 
-                sizes: ['Blanca/Morado', 'Blanca/Rojo', 'Blanca/Plata', 'Negra/Color', 'Negra/Plata'], 
+                sizes: ['Negra/Color', 'Blanca/Morado', 'Blanca/Rojo', 'Blanca/Plata', 'Negra/Plata'], 
                 new: true,
                 desc: 'Rendimiento y protección en cada kilómetro.<br>• Diseño ultra ligero que no incomoda durante el movimiento<br>• Lentes con protección UV para cuidar tus ojos del sol<br>• Ajuste ergónomico que evita que se deslicen al correr<br>• Ideales para running, ciclismo y actividades al aire libre'
             },
@@ -79,8 +79,8 @@
 
                 card.innerHTML = `
       <div class="product-img-wrap">
-        <div class="product-img-placeholder">${p.icon}</div>
-        <div class="discount-badge">-${p.discount}%</div>
+        <div class="product-img-placeholder">${(p.images && p.images.length > 0) ? `<img style="width:100%;height:100%;object-fit:cover;" src="${p.images[0]}" alt="${p.name}">` : p.icon}</div>
+        ${p.discount > 0 ? `<div class="discount-badge">-${p.discount}%</div>` : ''}
         <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${p.id}" aria-label="Favorito" title="Agregar a favoritos">
           ${isFav ? '❤️' : '🤍'}
         </button>
@@ -90,7 +90,7 @@
         <div class="product-brand">${p.brand}</div>
         <div class="product-name">${p.name}</div>
         <div class="product-prices">
-          <span class="price-old">${formatCOP(p.oldPrice)}</span>
+          ${p.oldPrice > p.price ? `<span class="price-old">${formatCOP(p.oldPrice)}</span>` : ''}
           <span class="price-current">${formatCOP(p.price)}</span>
         </div>
         <button class="btn-cart" data-id="${p.id}">🛒 AGREGAR AL CARRITO</button>
