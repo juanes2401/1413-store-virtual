@@ -594,7 +594,9 @@
         }, { passive: true });
 
         if (scrollTopBtn) {
-            scrollTopBtn.addEventListener('click', () => {
+            scrollTopBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
