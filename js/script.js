@@ -24,7 +24,7 @@
                 name: 'Gafas para running',
                 brand: '1413 Cycling & Sport',
                 icon: '🕶️',
-                /* Cuando tengas las fotos en disco, descomenta o agrega images: ['img/archivo.jpeg', ...] */
+                images: ['img/gafas negras con colores.jpeg', 'img/gafas blancas con morado.jpeg', 'img/gafas blancas con rojo.jpeg', 'img/gafas blancas.jpeg', 'img/gafas negras.jpeg'],
                 cat: 'gafas',
                 /* Aparece en Running y en Gafas (sidebar / navbar si existe) */
                 cats: ['gafas', 'running'],
