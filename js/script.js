@@ -19,17 +19,19 @@
             { id: 14, name: 'Camiseta Fútbol Retro', brand: '1413 Cycling & Sport', icon: '👕', cat: 'futbol', price: 45900, oldPrice: 129900, discount: 65, sizes: ['S', 'M', 'L', 'XL'], new: false },
             { id: 15, name: 'Pantalón Montaña Tech', brand: '1413 Cycling & Sport', icon: '🏔️', cat: 'montana', price: 89900, oldPrice: 259900, discount: 65, sizes: ['M', 'L', 'XL'], new: false },
             { id: 16, name: 'Kit Triatlón Completo', brand: '1413 Cycling & Sport', icon: '🏅', cat: 'triatlon', price: 249900, oldPrice: 699900, discount: 64, sizes: ['S', 'M', 'L'], new: true },
-            { 
-                id: 17, 
-                name: 'Gafas para running', 
-                brand: '1413 Cycling & Sport', 
-                icon: '🕶️', 
+            {
+                id: 17,
+                name: 'Gafas para running',
+                brand: '1413 Cycling & Sport',
+                icon: '🕶️',
                 images: ['img/gafas negras con colores.jpeg', 'img/gafas blancas con morado.jpeg', 'img/gafas blancas con rojo.jpeg', 'img/gafas blancas.jpeg', 'img/gafas negras.jpeg'],
-                cat: 'gafas', 
-                price: 45000, 
-                oldPrice: 45000, 
-                discount: 0, 
-                sizes: ['Negra/Color', 'Blanca/Morado', 'Blanca/Rojo', 'Blanca/Plata', 'Negra/Plata'], 
+                cat: 'gafas',
+                /* Aparece en Running y en Gafas (sidebar / navbar si existe) */
+                cats: ['gafas', 'running'],
+                price: 45000,
+                oldPrice: 79900,
+                discount: 44,
+                sizes: ['Negra/Color', 'Blanca/Morado', 'Blanca/Rojo', 'Blanca/Plata', 'Negra/Plata'],
                 new: true,
                 desc: 'Rendimiento y protección en cada kilómetro.<br>• Diseño ultra ligero que no incomoda durante el movimiento<br>• Lentes con protección UV para cuidar tus ojos del sol<br>• Ajuste ergónomico que evita que se deslicen al correr<br>• Ideales para running, ciclismo y actividades al aire libre'
             },
@@ -134,13 +136,22 @@
             });
         }
 
+        /** True si el producto pertenece a la categoría del menú (soporta varias con `cats: ['gafas','running']`). */
+        function productInCategory(p, catKey) {
+            if (!catKey || catKey === 'todos') return true;
+            if (Array.isArray(p.cats) && p.cats.length > 0) {
+                return p.cats.includes(catKey);
+            }
+            return p.cat === catKey;
+        }
+
         /* ─── FILTRAR PRODUCTOS ─── */
         function getFilteredProducts() {
             let list = [...PRODUCTS];
 
             /* Filtro categoría navbar */
             if (currentFilter !== 'todos') {
-                list = list.filter(p => p.cat === currentFilter);
+                list = list.filter(p => productInCategory(p, currentFilter));
             }
 
             /* Filtro búsqueda */
@@ -149,6 +160,7 @@
                 list = list.filter(p =>
                     p.name.toLowerCase().includes(q) ||
                     p.cat.includes(q) ||
+                    (Array.isArray(p.cats) && p.cats.some(c => String(c).toLowerCase().includes(q))) ||
                     (p.brand && p.brand.toLowerCase().includes(q))
                 );
             }
@@ -166,7 +178,7 @@
 
             if (catChecks.length > 0) {
                 const cats = [...catChecks].map(c => c.dataset.filterCat);
-                list = list.filter(p => cats.includes(p.cat));
+                list = list.filter(p => cats.some(cKey => productInCategory(p, cKey)));
             }
 
             if (activeSizes.length > 0) {
@@ -198,7 +210,7 @@
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             const link = document.querySelector(`[data-cat="${cat}"]`);
             if (link) link.classList.add('active');
-            const list = cat === 'todos' ? PRODUCTS : PRODUCTS.filter(p => p.cat === cat);
+            const list = cat === 'todos' ? PRODUCTS : PRODUCTS.filter(p => productInCategory(p, cat));
             renderProducts(list);
             document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
@@ -610,6 +622,7 @@
             return PRODUCTS.filter((p) =>
                 p.name.toLowerCase().includes(ql) ||
                 p.cat.includes(ql) ||
+                (Array.isArray(p.cats) && p.cats.some(c => String(c).toLowerCase().includes(ql))) ||
                 (p.brand && p.brand.toLowerCase().includes(ql))
             ).slice(0, 8);
         }
