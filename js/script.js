@@ -29,8 +29,8 @@
                 /* Aparece en Running y en Gafas (sidebar / navbar si existe) */
                 cats: ['gafas', 'running'],
                 price: 45000,
-                oldPrice: 79900,
-                discount: 44,
+                oldPrice: 45000,
+                discount: 0,
                 sizes: ['Negra/Color', 'Blanca/Morado', 'Blanca/Rojo', 'Blanca/Plata', 'Negra/Plata'],
                 new: true,
                 desc: 'Rendimiento y protección en cada kilómetro.<br>• Diseño ultra ligero que no incomoda durante el movimiento<br>• Lentes con protección UV para cuidar tus ojos del sol<br>• Ajuste ergónomico que evita que se deslicen al correr<br>• Ideales para running, ciclismo y actividades al aire libre'
