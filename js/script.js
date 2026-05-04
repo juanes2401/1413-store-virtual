@@ -11,12 +11,8 @@
                 cat: 'ciclismo',
                 price: 89900,
                 oldPrice: 249900,
-                discount: 64,
-                sizes: ['S', 'M', 'L', 'XL'],
-                new: false,
-                images: ['assets/images/placeholder.svg', 'assets/images/placeholder.svg'],
-            },
-            { id: 2, name: 'Culote Aero Carbon', brand: '1413 Cycling Sport', icon: '🩱', cat: 'ciclismo', price: 119900, oldPrice: 349900, discount: 66, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
+            { id: 1, name: 'Jersey Pro 1413', brand: '1413 Cycling Sport', icon: '🚴', images: ['🚴', '📦', '⭐'], cat: 'ciclismo', price: 89900, oldPrice: 249900, discount: 64, sizes: ['S', 'M', 'L', 'XL'], new: false },
+            { id: 2, name: 'Culote Aero Carbon', brand: '1413 Cycling Sport', icon: '🩱', images: ['🩱', '🏃', '🔥'], cat: 'ciclismo', price: 119900, oldPrice: 349900, discount: 66, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
             { id: 3, name: 'Maillot Montaña X', brand: '1413 Cycling Sport', icon: '⛰️', cat: 'montana', price: 79900, oldPrice: 229900, discount: 65, sizes: ['S', 'M', 'L'], new: false },
             { id: 4, name: 'Short Running Pro', brand: '1413 Cycling Sport', icon: '🏃', cat: 'running', price: 49900, oldPrice: 149900, discount: 67, sizes: ['S', 'M', 'L', 'XL'], new: false },
             { id: 5, name: 'Camiseta Gym Power', brand: '1413 Cycling Sport', icon: '💪', cat: 'gimnasio', price: 39900, oldPrice: 109900, discount: 64, sizes: ['M', 'L', 'XL', 'XXL'], new: true },
@@ -633,6 +629,12 @@
             searchSuggestionIndex = -1;
         }
 
+        /* ─── BUSCADOR ─── */
+        // Listeners removidos por estar duplicado y mejorados abajo (línea 636)
+        /* document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim();
+            renderProducts(getFilteredProducts());
+        }); */
         const searchInputEl = document.getElementById('search-input');
         searchInputEl.addEventListener('input', (e) => {
             searchQuery = e.target.value.trim();
