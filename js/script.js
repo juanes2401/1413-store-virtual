@@ -50,7 +50,10 @@
                 return { id: prod.id, qty: isNaN(qty) ? 1 : qty, name: prod.name, price: prod.price, icon: prod.icon, size, image };
             })
             .filter(Boolean);
-        let favorites = JSON.parse(localStorage.getItem('1413_favs') || '[]');
+        let favorites = JSON.parse(localStorage.getItem('1413_favs') || '[]')
+            .map((id) => Number(id))
+            .filter((id) => !isNaN(id));
+        let showFavoritesOnly = false;
         let currentFilter = 'todos';
         let searchQuery = '';
 
@@ -86,9 +89,20 @@
             document.getElementById('product-count').textContent = list.length;
 
             if (list.length === 0) {
+                let emptyIcon = '🔍';
+                let emptyMsg = 'No encontramos productos con esos filtros.';
+                if (showFavoritesOnly) {
+                    if (favorites.length === 0) {
+                        emptyIcon = '🤍';
+                        emptyMsg = 'Aún no tienes favoritos. Haz clic en el corazón de un producto para guardarlo aquí.';
+                    } else {
+                        emptyIcon = '🔍';
+                        emptyMsg = 'Ninguno de tus favoritos coincide con la búsqueda o filtros. Prueba limpiar.';
+                    }
+                }
                 grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#999;">
-      <div style="font-size:56px;margin-bottom:16px;">🔍</div>
-      <p style="font-size:18px;color:#555;">No encontramos productos con esos filtros.</p>
+      <div style="font-size:56px;margin-bottom:16px;">${emptyIcon}</div>
+      <p style="font-size:18px;color:#555;">${emptyMsg}</p>
       <button onclick="clearFilters()" style="margin-top:16px;padding:10px 24px;background:var(--primary);color:#fff;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;border:none;cursor:pointer;">LIMPIAR FILTROS</button>
     </div>`;
                 return;
@@ -191,7 +205,16 @@
                 );
             }
 
+            if (showFavoritesOnly) {
+                list = list.filter((p) => favorites.includes(p.id));
+            }
+
             return list;
+        }
+
+        function updateFavoritesLinkUi() {
+            const link = document.getElementById('topbar-favorites-link');
+            if (link) link.classList.toggle('active', showFavoritesOnly);
         }
 
         function applyFilters() {
@@ -223,21 +246,24 @@
             if (priceRange) { priceRange.value = 500000; updatePriceLabel(); }
             currentFilter = 'todos';
             searchQuery = '';
+            showFavoritesOnly = false;
+            updateFavoritesLinkUi();
             document.getElementById('search-input').value = '';
             hideSearchSuggestions();
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.querySelector('[data-cat="todos"]').classList.add('active');
-            renderProducts(PRODUCTS);
+            renderProducts(getFilteredProducts());
         }
 
         function filterByCategory(cat) {
             hideSearchSuggestions();
+            showFavoritesOnly = false;
+            updateFavoritesLinkUi();
             currentFilter = cat;
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             const link = document.querySelector(`[data-cat="${cat}"]`);
             if (link) link.classList.add('active');
-            const list = cat === 'todos' ? PRODUCTS : PRODUCTS.filter(p => productInCategory(p, cat));
-            renderProducts(list);
+            renderProducts(getFilteredProducts());
             document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
@@ -597,6 +623,7 @@
                 showToast('❤️ Añadido a favoritos', 'fav');
             }
             localStorage.setItem('1413_favs', JSON.stringify(favorites));
+            renderProducts(getFilteredProducts());
         }
 
         /* ─── HERO SLIDER ─── */
@@ -852,8 +879,26 @@
             }, 3000);
         }
 
+        /* ─── Favoritos (topbar): ver solo productos guardados ─── */
+        const topbarFavLink = document.getElementById('topbar-favorites-link');
+        if (topbarFavLink) {
+            topbarFavLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                showFavoritesOnly = !showFavoritesOnly;
+                updateFavoritesLinkUi();
+                if (showFavoritesOnly) {
+                    currentFilter = 'todos';
+                    document.querySelectorAll('.nav-link').forEach((l) => l.classList.remove('active'));
+                    const todosLink = document.querySelector('[data-cat="todos"]');
+                    if (todosLink) todosLink.classList.add('active');
+                }
+                renderProducts(getFilteredProducts());
+                document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
+
         /* ─── INIT ─── */
-        renderProducts(PRODUCTS);
+        renderProducts(getFilteredProducts());
         updateCartBadge();
         renderCartItems();
         updatePriceLabel();
